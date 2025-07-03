@@ -4,7 +4,7 @@
 // 	protoc        v6.31.1
 // source: user.proto
 
-package proto
+package protouser
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -138,7 +138,7 @@ const file_user_proto_rawDesc = "" +
 	"\x12CreateUserResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id29\n" +
 	"\x04User\x121\n" +
-	"\x06Create\x12\x12.CreateUserRequest\x1a\x13.CreateUserResponseB\x13Z\x11example.com/protob\x06proto3"
+	"\x06Create\x12\x12.CreateUserRequest\x1a\x13.CreateUserResponseB0Z.github.com/Gleb988/online-shop_proto/protouserb\x06proto3"
 
 var (
 	file_user_proto_rawDescOnce sync.Once
