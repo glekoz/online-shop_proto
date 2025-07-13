@@ -1,0 +1,35 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option go_package = "github.com/Gleb988/online-shop_proto/protoproduct";
+
+service Product {
+  rpc Create(CreateProductRequest) returns (CreateProductResponse);
+  rpc Get(GetProductRequest) returns (GetProductResponse);
+}
+
+service ProductImage {
+  rpc UploadImage(UploadImageRequest) returns (google.protobuf.Empty);
+}
+
+message CreateProductRequest {
+  string name = 1;
+  string description = 2;
+  int32 price = 3;
+}
+message CreateProductResponse {
+  int32 id = 1;
+}
+message GetProductRequest {
+  int32 id = 1;
+}
+message GetProductResponse {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  int32 price = 4;
+  string image_url = 5; // URL of the product image
+}
+message UploadImageRequest {
+  bytes image_data = 1; // Image data in bytes
+}
+// protoc -I ./proto --go_out ./protoproduct --go-grpc_out ./protoproduct --go_opt paths=source_relative --go-grpc_opt paths=source_relative .\proto\product.proto
