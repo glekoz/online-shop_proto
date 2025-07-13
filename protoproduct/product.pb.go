@@ -9,7 +9,6 @@ package protoproduct
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,7 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type CreateProductRequest struct {
+type Metadata struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
@@ -31,9 +30,71 @@ type CreateProductRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
+func (x *Metadata) Reset() {
+	*x = Metadata{}
+	mi := &file_product_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Metadata) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Metadata) ProtoMessage() {}
+
+func (x *Metadata) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Metadata.ProtoReflect.Descriptor instead.
+func (*Metadata) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Metadata) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Metadata) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Metadata) GetPrice() int32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+type CreateProductRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Data:
+	//
+	//	*CreateProductRequest_Metadata
+	//	*CreateProductRequest_ImageChunk
+	Data          isCreateProductRequest_Data `protobuf_oneof:"data"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
 func (x *CreateProductRequest) Reset() {
 	*x = CreateProductRequest{}
-	mi := &file_product_proto_msgTypes[0]
+	mi := &file_product_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +106,7 @@ func (x *CreateProductRequest) String() string {
 func (*CreateProductRequest) ProtoMessage() {}
 
 func (x *CreateProductRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_product_proto_msgTypes[0]
+	mi := &file_product_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,29 +119,49 @@ func (x *CreateProductRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProductRequest.ProtoReflect.Descriptor instead.
 func (*CreateProductRequest) Descriptor() ([]byte, []int) {
-	return file_product_proto_rawDescGZIP(), []int{0}
+	return file_product_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateProductRequest) GetName() string {
+func (x *CreateProductRequest) GetData() isCreateProductRequest_Data {
 	if x != nil {
-		return x.Name
+		return x.Data
 	}
-	return ""
+	return nil
 }
 
-func (x *CreateProductRequest) GetDescription() string {
+func (x *CreateProductRequest) GetMetadata() *Metadata {
 	if x != nil {
-		return x.Description
+		if x, ok := x.Data.(*CreateProductRequest_Metadata); ok {
+			return x.Metadata
+		}
 	}
-	return ""
+	return nil
 }
 
-func (x *CreateProductRequest) GetPrice() int32 {
+func (x *CreateProductRequest) GetImageChunk() []byte {
 	if x != nil {
-		return x.Price
+		if x, ok := x.Data.(*CreateProductRequest_ImageChunk); ok {
+			return x.ImageChunk
+		}
 	}
-	return 0
+	return nil
 }
+
+type isCreateProductRequest_Data interface {
+	isCreateProductRequest_Data()
+}
+
+type CreateProductRequest_Metadata struct {
+	Metadata *Metadata `protobuf:"bytes,1,opt,name=metadata,proto3,oneof"`
+}
+
+type CreateProductRequest_ImageChunk struct {
+	ImageChunk []byte `protobuf:"bytes,2,opt,name=image_chunk,json=imageChunk,proto3,oneof"`
+}
+
+func (*CreateProductRequest_Metadata) isCreateProductRequest_Data() {}
+
+func (*CreateProductRequest_ImageChunk) isCreateProductRequest_Data() {}
 
 type CreateProductResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -91,7 +172,7 @@ type CreateProductResponse struct {
 
 func (x *CreateProductResponse) Reset() {
 	*x = CreateProductResponse{}
-	mi := &file_product_proto_msgTypes[1]
+	mi := &file_product_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -103,7 +184,7 @@ func (x *CreateProductResponse) String() string {
 func (*CreateProductResponse) ProtoMessage() {}
 
 func (x *CreateProductResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_product_proto_msgTypes[1]
+	mi := &file_product_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -116,7 +197,7 @@ func (x *CreateProductResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProductResponse.ProtoReflect.Descriptor instead.
 func (*CreateProductResponse) Descriptor() ([]byte, []int) {
-	return file_product_proto_rawDescGZIP(), []int{1}
+	return file_product_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateProductResponse) GetId() int32 {
@@ -135,7 +216,7 @@ type GetProductRequest struct {
 
 func (x *GetProductRequest) Reset() {
 	*x = GetProductRequest{}
-	mi := &file_product_proto_msgTypes[2]
+	mi := &file_product_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -147,7 +228,7 @@ func (x *GetProductRequest) String() string {
 func (*GetProductRequest) ProtoMessage() {}
 
 func (x *GetProductRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_product_proto_msgTypes[2]
+	mi := &file_product_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,7 +241,7 @@ func (x *GetProductRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductRequest.ProtoReflect.Descriptor instead.
 func (*GetProductRequest) Descriptor() ([]byte, []int) {
-	return file_product_proto_rawDescGZIP(), []int{2}
+	return file_product_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetProductRequest) GetId() int32 {
@@ -183,7 +264,7 @@ type GetProductResponse struct {
 
 func (x *GetProductResponse) Reset() {
 	*x = GetProductResponse{}
-	mi := &file_product_proto_msgTypes[3]
+	mi := &file_product_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -195,7 +276,7 @@ func (x *GetProductResponse) String() string {
 func (*GetProductResponse) ProtoMessage() {}
 
 func (x *GetProductResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_product_proto_msgTypes[3]
+	mi := &file_product_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -208,7 +289,7 @@ func (x *GetProductResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductResponse.ProtoReflect.Descriptor instead.
 func (*GetProductResponse) Descriptor() ([]byte, []int) {
-	return file_product_proto_rawDescGZIP(), []int{3}
+	return file_product_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetProductResponse) GetId() int32 {
@@ -246,59 +327,20 @@ func (x *GetProductResponse) GetImageUrl() string {
 	return ""
 }
 
-type UploadImageRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ImageData     []byte                 `protobuf:"bytes,1,opt,name=image_data,json=imageData,proto3" json:"image_data,omitempty"` // Image data in bytes
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UploadImageRequest) Reset() {
-	*x = UploadImageRequest{}
-	mi := &file_product_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UploadImageRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UploadImageRequest) ProtoMessage() {}
-
-func (x *UploadImageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_product_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UploadImageRequest.ProtoReflect.Descriptor instead.
-func (*UploadImageRequest) Descriptor() ([]byte, []int) {
-	return file_product_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *UploadImageRequest) GetImageData() []byte {
-	if x != nil {
-		return x.ImageData
-	}
-	return nil
-}
-
 var File_product_proto protoreflect.FileDescriptor
 
 const file_product_proto_rawDesc = "" +
 	"\n" +
-	"\rproduct.proto\x1a\x1bgoogle/protobuf/empty.proto\"b\n" +
-	"\x14CreateProductRequest\x12\x12\n" +
+	"\rproduct.proto\"V\n" +
+	"\bMetadata\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
-	"\x05price\x18\x03 \x01(\x05R\x05price\"'\n" +
+	"\x05price\x18\x03 \x01(\x05R\x05price\"j\n" +
+	"\x14CreateProductRequest\x12'\n" +
+	"\bmetadata\x18\x01 \x01(\v2\t.MetadataH\x00R\bmetadata\x12!\n" +
+	"\vimage_chunk\x18\x02 \x01(\fH\x00R\n" +
+	"imageChunkB\x06\n" +
+	"\x04data\"'\n" +
 	"\x15CreateProductResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"#\n" +
 	"\x11GetProductRequest\x12\x0e\n" +
@@ -308,15 +350,10 @@ const file_product_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x14\n" +
 	"\x05price\x18\x04 \x01(\x05R\x05price\x12\x1b\n" +
-	"\timage_url\x18\x05 \x01(\tR\bimageUrl\"3\n" +
-	"\x12UploadImageRequest\x12\x1d\n" +
-	"\n" +
-	"image_data\x18\x01 \x01(\fR\timageData2r\n" +
-	"\aProduct\x127\n" +
-	"\x06Create\x12\x15.CreateProductRequest\x1a\x16.CreateProductResponse\x12.\n" +
-	"\x03Get\x12\x12.GetProductRequest\x1a\x13.GetProductResponse2J\n" +
-	"\fProductImage\x12:\n" +
-	"\vUploadImage\x12\x13.UploadImageRequest\x1a\x16.google.protobuf.EmptyB3Z1github.com/Gleb988/online-shop_proto/protoproductb\x06proto3"
+	"\timage_url\x18\x05 \x01(\tR\bimageUrl2t\n" +
+	"\aProduct\x129\n" +
+	"\x06Create\x12\x15.CreateProductRequest\x1a\x16.CreateProductResponse(\x01\x12.\n" +
+	"\x03Get\x12\x12.GetProductRequest\x1a\x13.GetProductResponseB3Z1github.com/Gleb988/online-shop_proto/protoproductb\x06proto3"
 
 var (
 	file_product_proto_rawDescOnce sync.Once
@@ -332,31 +369,33 @@ func file_product_proto_rawDescGZIP() []byte {
 
 var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_product_proto_goTypes = []any{
-	(*CreateProductRequest)(nil),  // 0: CreateProductRequest
-	(*CreateProductResponse)(nil), // 1: CreateProductResponse
-	(*GetProductRequest)(nil),     // 2: GetProductRequest
-	(*GetProductResponse)(nil),    // 3: GetProductResponse
-	(*UploadImageRequest)(nil),    // 4: UploadImageRequest
-	(*emptypb.Empty)(nil),         // 5: google.protobuf.Empty
+	(*Metadata)(nil),              // 0: Metadata
+	(*CreateProductRequest)(nil),  // 1: CreateProductRequest
+	(*CreateProductResponse)(nil), // 2: CreateProductResponse
+	(*GetProductRequest)(nil),     // 3: GetProductRequest
+	(*GetProductResponse)(nil),    // 4: GetProductResponse
 }
 var file_product_proto_depIdxs = []int32{
-	0, // 0: Product.Create:input_type -> CreateProductRequest
-	2, // 1: Product.Get:input_type -> GetProductRequest
-	4, // 2: ProductImage.UploadImage:input_type -> UploadImageRequest
-	1, // 3: Product.Create:output_type -> CreateProductResponse
-	3, // 4: Product.Get:output_type -> GetProductResponse
-	5, // 5: ProductImage.UploadImage:output_type -> google.protobuf.Empty
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: CreateProductRequest.metadata:type_name -> Metadata
+	1, // 1: Product.Create:input_type -> CreateProductRequest
+	3, // 2: Product.Get:input_type -> GetProductRequest
+	2, // 3: Product.Create:output_type -> CreateProductResponse
+	4, // 4: Product.Get:output_type -> GetProductResponse
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_product_proto_init() }
 func file_product_proto_init() {
 	if File_product_proto != nil {
 		return
+	}
+	file_product_proto_msgTypes[1].OneofWrappers = []any{
+		(*CreateProductRequest_Metadata)(nil),
+		(*CreateProductRequest_ImageChunk)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -366,7 +405,7 @@ func file_product_proto_init() {
 			NumEnums:      0,
 			NumMessages:   5,
 			NumExtensions: 0,
-			NumServices:   2,
+			NumServices:   1,
 		},
 		GoTypes:           file_product_proto_goTypes,
 		DependencyIndexes: file_product_proto_depIdxs,

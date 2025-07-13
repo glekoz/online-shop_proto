@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -28,7 +27,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductClient interface {
-	Create(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error)
+	Create(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[CreateProductRequest, CreateProductResponse], error)
 	Get(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error)
 }
 
@@ -40,15 +39,18 @@ func NewProductClient(cc grpc.ClientConnInterface) ProductClient {
 	return &productClient{cc}
 }
 
-func (c *productClient) Create(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error) {
+func (c *productClient) Create(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[CreateProductRequest, CreateProductResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateProductResponse)
-	err := c.cc.Invoke(ctx, Product_Create_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Product_ServiceDesc.Streams[0], Product_Create_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[CreateProductRequest, CreateProductResponse]{ClientStream: stream}
+	return x, nil
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Product_CreateClient = grpc.ClientStreamingClient[CreateProductRequest, CreateProductResponse]
 
 func (c *productClient) Get(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -64,7 +66,7 @@ func (c *productClient) Get(ctx context.Context, in *GetProductRequest, opts ...
 // All implementations must embed UnimplementedProductServer
 // for forward compatibility.
 type ProductServer interface {
-	Create(context.Context, *CreateProductRequest) (*CreateProductResponse, error)
+	Create(grpc.ClientStreamingServer[CreateProductRequest, CreateProductResponse]) error
 	Get(context.Context, *GetProductRequest) (*GetProductResponse, error)
 	mustEmbedUnimplementedProductServer()
 }
@@ -76,8 +78,8 @@ type ProductServer interface {
 // pointer dereference when methods are called.
 type UnimplementedProductServer struct{}
 
-func (UnimplementedProductServer) Create(context.Context, *CreateProductRequest) (*CreateProductResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedProductServer) Create(grpc.ClientStreamingServer[CreateProductRequest, CreateProductResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (UnimplementedProductServer) Get(context.Context, *GetProductRequest) (*GetProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
@@ -103,23 +105,12 @@ func RegisterProductServer(s grpc.ServiceRegistrar, srv ProductServer) {
 	s.RegisterService(&Product_ServiceDesc, srv)
 }
 
-func _Product_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateProductRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductServer).Create(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Product_Create_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServer).Create(ctx, req.(*CreateProductRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+func _Product_Create_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ProductServer).Create(&grpc.GenericServerStream[CreateProductRequest, CreateProductResponse]{ServerStream: stream})
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Product_CreateServer = grpc.ClientStreamingServer[CreateProductRequest, CreateProductResponse]
 
 func _Product_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetProductRequest)
@@ -147,116 +138,16 @@ var Product_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ProductServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Create",
-			Handler:    _Product_Create_Handler,
-		},
-		{
 			MethodName: "Get",
 			Handler:    _Product_Get_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "product.proto",
-}
-
-const (
-	ProductImage_UploadImage_FullMethodName = "/ProductImage/UploadImage"
-)
-
-// ProductImageClient is the client API for ProductImage service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ProductImageClient interface {
-	UploadImage(ctx context.Context, in *UploadImageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-}
-
-type productImageClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewProductImageClient(cc grpc.ClientConnInterface) ProductImageClient {
-	return &productImageClient{cc}
-}
-
-func (c *productImageClient) UploadImage(ctx context.Context, in *UploadImageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, ProductImage_UploadImage_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// ProductImageServer is the server API for ProductImage service.
-// All implementations must embed UnimplementedProductImageServer
-// for forward compatibility.
-type ProductImageServer interface {
-	UploadImage(context.Context, *UploadImageRequest) (*emptypb.Empty, error)
-	mustEmbedUnimplementedProductImageServer()
-}
-
-// UnimplementedProductImageServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedProductImageServer struct{}
-
-func (UnimplementedProductImageServer) UploadImage(context.Context, *UploadImageRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UploadImage not implemented")
-}
-func (UnimplementedProductImageServer) mustEmbedUnimplementedProductImageServer() {}
-func (UnimplementedProductImageServer) testEmbeddedByValue()                      {}
-
-// UnsafeProductImageServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ProductImageServer will
-// result in compilation errors.
-type UnsafeProductImageServer interface {
-	mustEmbedUnimplementedProductImageServer()
-}
-
-func RegisterProductImageServer(s grpc.ServiceRegistrar, srv ProductImageServer) {
-	// If the following call pancis, it indicates UnimplementedProductImageServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&ProductImage_ServiceDesc, srv)
-}
-
-func _ProductImage_UploadImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UploadImageRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductImageServer).UploadImage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProductImage_UploadImage_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductImageServer).UploadImage(ctx, req.(*UploadImageRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// ProductImage_ServiceDesc is the grpc.ServiceDesc for ProductImage service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var ProductImage_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ProductImage",
-	HandlerType: (*ProductImageServer)(nil),
-	Methods: []grpc.MethodDesc{
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "UploadImage",
-			Handler:    _ProductImage_UploadImage_Handler,
+			StreamName:    "Create",
+			Handler:       _Product_Create_Handler,
+			ClientStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "product.proto",
 }
