@@ -1,4 +1,4 @@
-module github.com/Gleb988/online-shop_proto
+module github.com/glekoz/online-shop_proto
 
 go 1.24.2
 
