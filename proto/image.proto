@@ -14,7 +14,7 @@ message ImageMessage {
 }
 
 message UploadResult {
-    bool result = 1;
+    string image_id = 1;
 }
 
 message Metadata {

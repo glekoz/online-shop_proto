@@ -105,7 +105,7 @@ func (*ImageMessage_ImageChunk) isImageMessage_Data() {}
 
 type UploadResult struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Result        bool                   `protobuf:"varint,1,opt,name=result,proto3" json:"result,omitempty"`
+	ImageId       string                 `protobuf:"bytes,1,opt,name=image_id,json=imageId,proto3" json:"image_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -140,11 +140,11 @@ func (*UploadResult) Descriptor() ([]byte, []int) {
 	return file_image_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *UploadResult) GetResult() bool {
+func (x *UploadResult) GetImageId() string {
 	if x != nil {
-		return x.Result
+		return x.ImageId
 	}
-	return false
+	return ""
 }
 
 type Metadata struct {
@@ -216,9 +216,9 @@ const file_image_proto_rawDesc = "" +
 	"\bmetadata\x18\x01 \x01(\v2\t.MetadataH\x00R\bmetadata\x12!\n" +
 	"\vimage_chunk\x18\x02 \x01(\fH\x00R\n" +
 	"imageChunkB\x06\n" +
-	"\x04data\"&\n" +
-	"\fUploadResult\x12\x16\n" +
-	"\x06result\x18\x01 \x01(\bR\x06result\"\\\n" +
+	"\x04data\")\n" +
+	"\fUploadResult\x12\x19\n" +
+	"\bimage_id\x18\x01 \x01(\tR\aimageId\"\\\n" +
 	"\bMetadata\x12\x18\n" +
 	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1b\n" +
 	"\tentity_id\x18\x02 \x01(\tR\bentityId\x12\x19\n" +
