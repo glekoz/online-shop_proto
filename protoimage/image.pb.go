@@ -150,7 +150,8 @@ func (x *UploadResult) GetResult() bool {
 type Metadata struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Service       string                 `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
-	DirName       string                 `protobuf:"bytes,2,opt,name=dir_name,json=dirName,proto3" json:"dir_name,omitempty"`
+	EntityId      string                 `protobuf:"bytes,2,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
+	IsCover       bool                   `protobuf:"varint,3,opt,name=is_cover,json=isCover,proto3" json:"is_cover,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -192,11 +193,18 @@ func (x *Metadata) GetService() string {
 	return ""
 }
 
-func (x *Metadata) GetDirName() string {
+func (x *Metadata) GetEntityId() string {
 	if x != nil {
-		return x.DirName
+		return x.EntityId
 	}
 	return ""
+}
+
+func (x *Metadata) GetIsCover() bool {
+	if x != nil {
+		return x.IsCover
+	}
+	return false
 }
 
 var File_image_proto protoreflect.FileDescriptor
@@ -210,10 +218,11 @@ const file_image_proto_rawDesc = "" +
 	"imageChunkB\x06\n" +
 	"\x04data\"&\n" +
 	"\fUploadResult\x12\x16\n" +
-	"\x06result\x18\x01 \x01(\bR\x06result\"?\n" +
+	"\x06result\x18\x01 \x01(\bR\x06result\"\\\n" +
 	"\bMetadata\x12\x18\n" +
-	"\aservice\x18\x01 \x01(\tR\aservice\x12\x19\n" +
-	"\bdir_name\x18\x02 \x01(\tR\adirName26\n" +
+	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1b\n" +
+	"\tentity_id\x18\x02 \x01(\tR\bentityId\x12\x19\n" +
+	"\bis_cover\x18\x03 \x01(\bR\aisCover26\n" +
 	"\x05Image\x12-\n" +
 	"\vUploadImage\x12\r.ImageMessage\x1a\r.UploadResult(\x01B1Z/github.com/Gleb988/online-shop_proto/protoimageb\x06proto3"
 

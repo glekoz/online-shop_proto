@@ -19,7 +19,8 @@ message UploadResult {
 
 message Metadata {
     string service = 1;
-    string dir_name = 2;
+    string entity_id = 2;
+    bool is_cover = 3;
 }
 
 // protoc -I ./proto --go_out ./protoimage --go-grpc_out ./protoimage --go_opt paths=source_relative --go-grpc_opt paths=source_relative .\proto\image.proto
