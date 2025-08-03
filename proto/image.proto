@@ -3,24 +3,74 @@ syntax = "proto3";
 option go_package = "github.com/Gleb988/online-shop_proto/protoimage";
 
 service Image {
-    rpc UploadImage(stream ImageMessage) returns (UploadResult);
+    rpc CreateEntity(CreateEntityRequest) returns (BoolResponse);
+    rpc DeleteEntity(CommonMetadata) returns (BoolResponse);
+    rpc SetBusyStatus(CommonMetadata) returns (BoolResponse);
+    rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+    rpc DeleteImage(DeleteImageRequest) returns (BoolResponse);
+    rpc GetCoverImage(GetCoverImageRequest) returns (GetCoverImageResponse);
+    rpc GetImageList(GetImageListRequest) returns (GetImageListResponse);
 }
 
-message ImageMessage {
+message CommonMetadata {
+    string service = 1;
+    string entity_id = 2;
+}
+
+
+message UploadImageMetadata {
+    CommonMetadata common_metadata = 1;
+    bool is_cover = 2;
+}
+
+message UploadImageRequest {
     oneof data {
-        Metadata metadata = 1;
+        UploadImageMetadata metadata = 1;
         bytes image_chunk = 2;
     }
 }
 
-message UploadResult {
+message UploadImageResponse {
     string image_id = 1;
 }
 
-message Metadata {
-    string service = 1;
-    string entity_id = 2;
-    bool is_cover = 3;
+
+message DeleteImageRequest {
+    CommonMetadata common_metadata = 1;
+    string image_path= 2;
+}
+
+message BoolResponse {
+    bool ok = 1;
+}
+
+
+message CreateEntityRequest {
+    CommonMetadata common_metadata = 1;
+    int32 max_count= 2;
+}
+
+
+message DeleteEntityRequest {
+    CommonMetadata common_metadata = 1;
+}
+
+
+message GetCoverImageRequest {
+    CommonMetadata common_metadata = 1;
+}
+
+message GetCoverImageResponse {
+    string cover_image_path = 1;
+}
+
+
+message GetImageListRequest {
+    CommonMetadata common_metadata = 1;
+}
+
+message GetImageListResponse {
+    repeated string image_path = 1;
 }
 
 // protoc -I ./proto --go_out ./protoimage --go-grpc_out ./protoimage --go_opt paths=source_relative --go-grpc_opt paths=source_relative .\proto\image.proto
