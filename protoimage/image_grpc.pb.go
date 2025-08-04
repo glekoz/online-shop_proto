@@ -21,7 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Image_CreateEntity_FullMethodName  = "/Image/CreateEntity"
 	Image_DeleteEntity_FullMethodName  = "/Image/DeleteEntity"
-	Image_SetBusyStatus_FullMethodName = "/Image/SetBusyStatus"
+	Image_IsStatusFree_FullMethodName  = "/Image/IsStatusFree"
 	Image_UploadImage_FullMethodName   = "/Image/UploadImage"
 	Image_DeleteImage_FullMethodName   = "/Image/DeleteImage"
 	Image_GetCoverImage_FullMethodName = "/Image/GetCoverImage"
@@ -34,11 +34,11 @@ const (
 type ImageClient interface {
 	CreateEntity(ctx context.Context, in *CreateEntityRequest, opts ...grpc.CallOption) (*BoolResponse, error)
 	DeleteEntity(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error)
-	SetBusyStatus(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error)
+	IsStatusFree(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error)
 	UploadImage(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadImageRequest, UploadImageResponse], error)
 	DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*BoolResponse, error)
-	GetCoverImage(ctx context.Context, in *GetCoverImageRequest, opts ...grpc.CallOption) (*GetCoverImageResponse, error)
-	GetImageList(ctx context.Context, in *GetImageListRequest, opts ...grpc.CallOption) (*GetImageListResponse, error)
+	GetCoverImage(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*GetCoverImageResponse, error)
+	GetImageList(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*GetImageListResponse, error)
 }
 
 type imageClient struct {
@@ -69,10 +69,10 @@ func (c *imageClient) DeleteEntity(ctx context.Context, in *CommonMetadata, opts
 	return out, nil
 }
 
-func (c *imageClient) SetBusyStatus(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error) {
+func (c *imageClient) IsStatusFree(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(BoolResponse)
-	err := c.cc.Invoke(ctx, Image_SetBusyStatus_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Image_IsStatusFree_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func (c *imageClient) DeleteImage(ctx context.Context, in *DeleteImageRequest, o
 	return out, nil
 }
 
-func (c *imageClient) GetCoverImage(ctx context.Context, in *GetCoverImageRequest, opts ...grpc.CallOption) (*GetCoverImageResponse, error) {
+func (c *imageClient) GetCoverImage(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*GetCoverImageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetCoverImageResponse)
 	err := c.cc.Invoke(ctx, Image_GetCoverImage_FullMethodName, in, out, cOpts...)
@@ -112,7 +112,7 @@ func (c *imageClient) GetCoverImage(ctx context.Context, in *GetCoverImageReques
 	return out, nil
 }
 
-func (c *imageClient) GetImageList(ctx context.Context, in *GetImageListRequest, opts ...grpc.CallOption) (*GetImageListResponse, error) {
+func (c *imageClient) GetImageList(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*GetImageListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetImageListResponse)
 	err := c.cc.Invoke(ctx, Image_GetImageList_FullMethodName, in, out, cOpts...)
@@ -128,11 +128,11 @@ func (c *imageClient) GetImageList(ctx context.Context, in *GetImageListRequest,
 type ImageServer interface {
 	CreateEntity(context.Context, *CreateEntityRequest) (*BoolResponse, error)
 	DeleteEntity(context.Context, *CommonMetadata) (*BoolResponse, error)
-	SetBusyStatus(context.Context, *CommonMetadata) (*BoolResponse, error)
+	IsStatusFree(context.Context, *CommonMetadata) (*BoolResponse, error)
 	UploadImage(grpc.ClientStreamingServer[UploadImageRequest, UploadImageResponse]) error
 	DeleteImage(context.Context, *DeleteImageRequest) (*BoolResponse, error)
-	GetCoverImage(context.Context, *GetCoverImageRequest) (*GetCoverImageResponse, error)
-	GetImageList(context.Context, *GetImageListRequest) (*GetImageListResponse, error)
+	GetCoverImage(context.Context, *CommonMetadata) (*GetCoverImageResponse, error)
+	GetImageList(context.Context, *CommonMetadata) (*GetImageListResponse, error)
 	mustEmbedUnimplementedImageServer()
 }
 
@@ -149,8 +149,8 @@ func (UnimplementedImageServer) CreateEntity(context.Context, *CreateEntityReque
 func (UnimplementedImageServer) DeleteEntity(context.Context, *CommonMetadata) (*BoolResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteEntity not implemented")
 }
-func (UnimplementedImageServer) SetBusyStatus(context.Context, *CommonMetadata) (*BoolResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetBusyStatus not implemented")
+func (UnimplementedImageServer) IsStatusFree(context.Context, *CommonMetadata) (*BoolResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsStatusFree not implemented")
 }
 func (UnimplementedImageServer) UploadImage(grpc.ClientStreamingServer[UploadImageRequest, UploadImageResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method UploadImage not implemented")
@@ -158,10 +158,10 @@ func (UnimplementedImageServer) UploadImage(grpc.ClientStreamingServer[UploadIma
 func (UnimplementedImageServer) DeleteImage(context.Context, *DeleteImageRequest) (*BoolResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteImage not implemented")
 }
-func (UnimplementedImageServer) GetCoverImage(context.Context, *GetCoverImageRequest) (*GetCoverImageResponse, error) {
+func (UnimplementedImageServer) GetCoverImage(context.Context, *CommonMetadata) (*GetCoverImageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCoverImage not implemented")
 }
-func (UnimplementedImageServer) GetImageList(context.Context, *GetImageListRequest) (*GetImageListResponse, error) {
+func (UnimplementedImageServer) GetImageList(context.Context, *CommonMetadata) (*GetImageListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetImageList not implemented")
 }
 func (UnimplementedImageServer) mustEmbedUnimplementedImageServer() {}
@@ -221,20 +221,20 @@ func _Image_DeleteEntity_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Image_SetBusyStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Image_IsStatusFree_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CommonMetadata)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ImageServer).SetBusyStatus(ctx, in)
+		return srv.(ImageServer).IsStatusFree(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Image_SetBusyStatus_FullMethodName,
+		FullMethod: Image_IsStatusFree_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ImageServer).SetBusyStatus(ctx, req.(*CommonMetadata))
+		return srv.(ImageServer).IsStatusFree(ctx, req.(*CommonMetadata))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -265,7 +265,7 @@ func _Image_DeleteImage_Handler(srv interface{}, ctx context.Context, dec func(i
 }
 
 func _Image_GetCoverImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCoverImageRequest)
+	in := new(CommonMetadata)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -277,13 +277,13 @@ func _Image_GetCoverImage_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: Image_GetCoverImage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ImageServer).GetCoverImage(ctx, req.(*GetCoverImageRequest))
+		return srv.(ImageServer).GetCoverImage(ctx, req.(*CommonMetadata))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Image_GetImageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetImageListRequest)
+	in := new(CommonMetadata)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -295,7 +295,7 @@ func _Image_GetImageList_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Image_GetImageList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ImageServer).GetImageList(ctx, req.(*GetImageListRequest))
+		return srv.(ImageServer).GetImageList(ctx, req.(*CommonMetadata))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -316,8 +316,8 @@ var Image_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Image_DeleteEntity_Handler,
 		},
 		{
-			MethodName: "SetBusyStatus",
-			Handler:    _Image_SetBusyStatus_Handler,
+			MethodName: "IsStatusFree",
+			Handler:    _Image_IsStatusFree_Handler,
 		},
 		{
 			MethodName: "DeleteImage",

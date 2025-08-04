@@ -443,50 +443,6 @@ func (x *DeleteEntityRequest) GetCommonMetadata() *CommonMetadata {
 	return nil
 }
 
-type GetCoverImageRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	CommonMetadata *CommonMetadata        `protobuf:"bytes,1,opt,name=common_metadata,json=commonMetadata,proto3" json:"common_metadata,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *GetCoverImageRequest) Reset() {
-	*x = GetCoverImageRequest{}
-	mi := &file_image_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetCoverImageRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetCoverImageRequest) ProtoMessage() {}
-
-func (x *GetCoverImageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_image_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetCoverImageRequest.ProtoReflect.Descriptor instead.
-func (*GetCoverImageRequest) Descriptor() ([]byte, []int) {
-	return file_image_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *GetCoverImageRequest) GetCommonMetadata() *CommonMetadata {
-	if x != nil {
-		return x.CommonMetadata
-	}
-	return nil
-}
-
 type GetCoverImageResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	CoverImagePath string                 `protobuf:"bytes,1,opt,name=cover_image_path,json=coverImagePath,proto3" json:"cover_image_path,omitempty"`
@@ -496,7 +452,7 @@ type GetCoverImageResponse struct {
 
 func (x *GetCoverImageResponse) Reset() {
 	*x = GetCoverImageResponse{}
-	mi := &file_image_proto_msgTypes[9]
+	mi := &file_image_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -508,7 +464,7 @@ func (x *GetCoverImageResponse) String() string {
 func (*GetCoverImageResponse) ProtoMessage() {}
 
 func (x *GetCoverImageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_image_proto_msgTypes[9]
+	mi := &file_image_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -521,7 +477,7 @@ func (x *GetCoverImageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCoverImageResponse.ProtoReflect.Descriptor instead.
 func (*GetCoverImageResponse) Descriptor() ([]byte, []int) {
-	return file_image_proto_rawDescGZIP(), []int{9}
+	return file_image_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetCoverImageResponse) GetCoverImagePath() string {
@@ -529,50 +485,6 @@ func (x *GetCoverImageResponse) GetCoverImagePath() string {
 		return x.CoverImagePath
 	}
 	return ""
-}
-
-type GetImageListRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	CommonMetadata *CommonMetadata        `protobuf:"bytes,1,opt,name=common_metadata,json=commonMetadata,proto3" json:"common_metadata,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *GetImageListRequest) Reset() {
-	*x = GetImageListRequest{}
-	mi := &file_image_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetImageListRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetImageListRequest) ProtoMessage() {}
-
-func (x *GetImageListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_image_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetImageListRequest.ProtoReflect.Descriptor instead.
-func (*GetImageListRequest) Descriptor() ([]byte, []int) {
-	return file_image_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *GetImageListRequest) GetCommonMetadata() *CommonMetadata {
-	if x != nil {
-		return x.CommonMetadata
-	}
-	return nil
 }
 
 type GetImageListResponse struct {
@@ -584,7 +496,7 @@ type GetImageListResponse struct {
 
 func (x *GetImageListResponse) Reset() {
 	*x = GetImageListResponse{}
-	mi := &file_image_proto_msgTypes[11]
+	mi := &file_image_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -596,7 +508,7 @@ func (x *GetImageListResponse) String() string {
 func (*GetImageListResponse) ProtoMessage() {}
 
 func (x *GetImageListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_image_proto_msgTypes[11]
+	mi := &file_image_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -609,7 +521,7 @@ func (x *GetImageListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetImageListResponse.ProtoReflect.Descriptor instead.
 func (*GetImageListResponse) Descriptor() ([]byte, []int) {
-	return file_image_proto_rawDescGZIP(), []int{11}
+	return file_image_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetImageListResponse) GetImagePath() []string {
@@ -647,24 +559,20 @@ const file_image_proto_rawDesc = "" +
 	"\x0fcommon_metadata\x18\x01 \x01(\v2\x0f.CommonMetadataR\x0ecommonMetadata\x12\x1b\n" +
 	"\tmax_count\x18\x02 \x01(\x05R\bmaxCount\"O\n" +
 	"\x13DeleteEntityRequest\x128\n" +
-	"\x0fcommon_metadata\x18\x01 \x01(\v2\x0f.CommonMetadataR\x0ecommonMetadata\"P\n" +
-	"\x14GetCoverImageRequest\x128\n" +
 	"\x0fcommon_metadata\x18\x01 \x01(\v2\x0f.CommonMetadataR\x0ecommonMetadata\"A\n" +
 	"\x15GetCoverImageResponse\x12(\n" +
-	"\x10cover_image_path\x18\x01 \x01(\tR\x0ecoverImagePath\"O\n" +
-	"\x13GetImageListRequest\x128\n" +
-	"\x0fcommon_metadata\x18\x01 \x01(\v2\x0f.CommonMetadataR\x0ecommonMetadata\"5\n" +
+	"\x10cover_image_path\x18\x01 \x01(\tR\x0ecoverImagePath\"5\n" +
 	"\x14GetImageListResponse\x12\x1d\n" +
 	"\n" +
-	"image_path\x18\x01 \x03(\tR\timagePath2\x89\x03\n" +
+	"image_path\x18\x01 \x03(\tR\timagePath2\xfd\x02\n" +
 	"\x05Image\x123\n" +
 	"\fCreateEntity\x12\x14.CreateEntityRequest\x1a\r.BoolResponse\x12.\n" +
-	"\fDeleteEntity\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12/\n" +
-	"\rSetBusyStatus\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12:\n" +
+	"\fDeleteEntity\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12.\n" +
+	"\fIsStatusFree\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12:\n" +
 	"\vUploadImage\x12\x13.UploadImageRequest\x1a\x14.UploadImageResponse(\x01\x121\n" +
-	"\vDeleteImage\x12\x13.DeleteImageRequest\x1a\r.BoolResponse\x12>\n" +
-	"\rGetCoverImage\x12\x15.GetCoverImageRequest\x1a\x16.GetCoverImageResponse\x12;\n" +
-	"\fGetImageList\x12\x14.GetImageListRequest\x1a\x15.GetImageListResponseB1Z/github.com/Gleb988/online-shop_proto/protoimageb\x06proto3"
+	"\vDeleteImage\x12\x13.DeleteImageRequest\x1a\r.BoolResponse\x128\n" +
+	"\rGetCoverImage\x12\x0f.CommonMetadata\x1a\x16.GetCoverImageResponse\x126\n" +
+	"\fGetImageList\x12\x0f.CommonMetadata\x1a\x15.GetImageListResponseB1Z/github.com/Gleb988/online-shop_proto/protoimageb\x06proto3"
 
 var (
 	file_image_proto_rawDescOnce sync.Once
@@ -678,7 +586,7 @@ func file_image_proto_rawDescGZIP() []byte {
 	return file_image_proto_rawDescData
 }
 
-var file_image_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_image_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_image_proto_goTypes = []any{
 	(*CommonMetadata)(nil),        // 0: CommonMetadata
 	(*UploadImageMetadata)(nil),   // 1: UploadImageMetadata
@@ -688,10 +596,8 @@ var file_image_proto_goTypes = []any{
 	(*BoolResponse)(nil),          // 5: BoolResponse
 	(*CreateEntityRequest)(nil),   // 6: CreateEntityRequest
 	(*DeleteEntityRequest)(nil),   // 7: DeleteEntityRequest
-	(*GetCoverImageRequest)(nil),  // 8: GetCoverImageRequest
-	(*GetCoverImageResponse)(nil), // 9: GetCoverImageResponse
-	(*GetImageListRequest)(nil),   // 10: GetImageListRequest
-	(*GetImageListResponse)(nil),  // 11: GetImageListResponse
+	(*GetCoverImageResponse)(nil), // 8: GetCoverImageResponse
+	(*GetImageListResponse)(nil),  // 9: GetImageListResponse
 }
 var file_image_proto_depIdxs = []int32{
 	0,  // 0: UploadImageMetadata.common_metadata:type_name -> CommonMetadata
@@ -699,27 +605,25 @@ var file_image_proto_depIdxs = []int32{
 	0,  // 2: DeleteImageRequest.common_metadata:type_name -> CommonMetadata
 	0,  // 3: CreateEntityRequest.common_metadata:type_name -> CommonMetadata
 	0,  // 4: DeleteEntityRequest.common_metadata:type_name -> CommonMetadata
-	0,  // 5: GetCoverImageRequest.common_metadata:type_name -> CommonMetadata
-	0,  // 6: GetImageListRequest.common_metadata:type_name -> CommonMetadata
-	6,  // 7: Image.CreateEntity:input_type -> CreateEntityRequest
-	0,  // 8: Image.DeleteEntity:input_type -> CommonMetadata
-	0,  // 9: Image.SetBusyStatus:input_type -> CommonMetadata
-	2,  // 10: Image.UploadImage:input_type -> UploadImageRequest
-	4,  // 11: Image.DeleteImage:input_type -> DeleteImageRequest
-	8,  // 12: Image.GetCoverImage:input_type -> GetCoverImageRequest
-	10, // 13: Image.GetImageList:input_type -> GetImageListRequest
-	5,  // 14: Image.CreateEntity:output_type -> BoolResponse
-	5,  // 15: Image.DeleteEntity:output_type -> BoolResponse
-	5,  // 16: Image.SetBusyStatus:output_type -> BoolResponse
-	3,  // 17: Image.UploadImage:output_type -> UploadImageResponse
-	5,  // 18: Image.DeleteImage:output_type -> BoolResponse
-	9,  // 19: Image.GetCoverImage:output_type -> GetCoverImageResponse
-	11, // 20: Image.GetImageList:output_type -> GetImageListResponse
-	14, // [14:21] is the sub-list for method output_type
-	7,  // [7:14] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	6,  // 5: Image.CreateEntity:input_type -> CreateEntityRequest
+	0,  // 6: Image.DeleteEntity:input_type -> CommonMetadata
+	0,  // 7: Image.IsStatusFree:input_type -> CommonMetadata
+	2,  // 8: Image.UploadImage:input_type -> UploadImageRequest
+	4,  // 9: Image.DeleteImage:input_type -> DeleteImageRequest
+	0,  // 10: Image.GetCoverImage:input_type -> CommonMetadata
+	0,  // 11: Image.GetImageList:input_type -> CommonMetadata
+	5,  // 12: Image.CreateEntity:output_type -> BoolResponse
+	5,  // 13: Image.DeleteEntity:output_type -> BoolResponse
+	5,  // 14: Image.IsStatusFree:output_type -> BoolResponse
+	3,  // 15: Image.UploadImage:output_type -> UploadImageResponse
+	5,  // 16: Image.DeleteImage:output_type -> BoolResponse
+	8,  // 17: Image.GetCoverImage:output_type -> GetCoverImageResponse
+	9,  // 18: Image.GetImageList:output_type -> GetImageListResponse
+	12, // [12:19] is the sub-list for method output_type
+	5,  // [5:12] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_image_proto_init() }
@@ -737,7 +641,7 @@ func file_image_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_image_proto_rawDesc), len(file_image_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -5,11 +5,11 @@ option go_package = "github.com/Gleb988/online-shop_proto/protoimage";
 service Image {
     rpc CreateEntity(CreateEntityRequest) returns (BoolResponse);
     rpc DeleteEntity(CommonMetadata) returns (BoolResponse);
-    rpc SetBusyStatus(CommonMetadata) returns (BoolResponse);
+    rpc IsStatusFree(CommonMetadata) returns (BoolResponse);
     rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
     rpc DeleteImage(DeleteImageRequest) returns (BoolResponse);
-    rpc GetCoverImage(GetCoverImageRequest) returns (GetCoverImageResponse);
-    rpc GetImageList(GetImageListRequest) returns (GetImageListResponse);
+    rpc GetCoverImage(CommonMetadata) returns (GetCoverImageResponse);
+    rpc GetImageList(CommonMetadata) returns (GetImageListResponse);
 }
 
 message CommonMetadata {
@@ -56,18 +56,10 @@ message DeleteEntityRequest {
 }
 
 
-message GetCoverImageRequest {
-    CommonMetadata common_metadata = 1;
-}
-
 message GetCoverImageResponse {
     string cover_image_path = 1;
 }
 
-
-message GetImageListRequest {
-    CommonMetadata common_metadata = 1;
-}
 
 message GetImageListResponse {
     repeated string image_path = 1;
