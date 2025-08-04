@@ -226,6 +226,7 @@ func (*UploadImageRequest_EndOfImage) isUploadImageRequest_Data() {}
 type UploadImageResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ImageId       string                 `protobuf:"bytes,1,opt,name=image_id,json=imageId,proto3" json:"image_id,omitempty"`
+	Err           string                 `protobuf:"bytes,2,opt,name=err,proto3" json:"err,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -267,10 +268,17 @@ func (x *UploadImageResponse) GetImageId() string {
 	return ""
 }
 
+func (x *UploadImageResponse) GetErr() string {
+	if x != nil {
+		return x.Err
+	}
+	return ""
+}
+
 type DeleteImageRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	CommonMetadata *CommonMetadata        `protobuf:"bytes,1,opt,name=common_metadata,json=commonMetadata,proto3" json:"common_metadata,omitempty"`
-	ImagePath      string                 `protobuf:"bytes,2,opt,name=image_path,json=imagePath,proto3" json:"image_path,omitempty"`
+	ImagePath      []string               `protobuf:"bytes,2,rep,name=image_path,json=imagePath,proto3" json:"image_path,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -312,11 +320,11 @@ func (x *DeleteImageRequest) GetCommonMetadata() *CommonMetadata {
 	return nil
 }
 
-func (x *DeleteImageRequest) GetImagePath() string {
+func (x *DeleteImageRequest) GetImagePath() []string {
 	if x != nil {
 		return x.ImagePath
 	}
-	return ""
+	return nil
 }
 
 type BoolResponse struct {
@@ -564,13 +572,14 @@ const file_image_proto_rawDesc = "" +
 	"imageChunk\x12\"\n" +
 	"\fend_of_image\x18\x03 \x01(\bH\x00R\n" +
 	"endOfImageB\x06\n" +
-	"\x04data\"0\n" +
+	"\x04data\"B\n" +
 	"\x13UploadImageResponse\x12\x19\n" +
-	"\bimage_id\x18\x01 \x01(\tR\aimageId\"m\n" +
+	"\bimage_id\x18\x01 \x01(\tR\aimageId\x12\x10\n" +
+	"\x03err\x18\x02 \x01(\tR\x03err\"m\n" +
 	"\x12DeleteImageRequest\x128\n" +
 	"\x0fcommon_metadata\x18\x01 \x01(\v2\x0f.CommonMetadataR\x0ecommonMetadata\x12\x1d\n" +
 	"\n" +
-	"image_path\x18\x02 \x01(\tR\timagePath\"\x1e\n" +
+	"image_path\x18\x02 \x03(\tR\timagePath\"\x1e\n" +
 	"\fBoolResponse\x12\x0e\n" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\"l\n" +
 	"\x13CreateEntityRequest\x128\n" +
@@ -582,12 +591,12 @@ const file_image_proto_rawDesc = "" +
 	"\x10cover_image_path\x18\x01 \x01(\tR\x0ecoverImagePath\"5\n" +
 	"\x14GetImageListResponse\x12\x1d\n" +
 	"\n" +
-	"image_path\x18\x01 \x03(\tR\timagePath2\xfd\x02\n" +
+	"image_path\x18\x01 \x03(\tR\timagePath2\xff\x02\n" +
 	"\x05Image\x123\n" +
 	"\fCreateEntity\x12\x14.CreateEntityRequest\x1a\r.BoolResponse\x12.\n" +
 	"\fDeleteEntity\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12.\n" +
-	"\fIsStatusFree\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12:\n" +
-	"\vUploadImage\x12\x13.UploadImageRequest\x1a\x14.UploadImageResponse(\x01\x121\n" +
+	"\fIsStatusFree\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12<\n" +
+	"\vUploadImage\x12\x13.UploadImageRequest\x1a\x14.UploadImageResponse(\x010\x01\x121\n" +
 	"\vDeleteImage\x12\x13.DeleteImageRequest\x1a\r.BoolResponse\x128\n" +
 	"\rGetCoverImage\x12\x0f.CommonMetadata\x1a\x16.GetCoverImageResponse\x126\n" +
 	"\fGetImageList\x12\x0f.CommonMetadata\x1a\x15.GetImageListResponseB1Z/github.com/Gleb988/online-shop_proto/protoimageb\x06proto3"

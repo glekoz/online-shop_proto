@@ -35,7 +35,7 @@ type ImageClient interface {
 	CreateEntity(ctx context.Context, in *CreateEntityRequest, opts ...grpc.CallOption) (*BoolResponse, error)
 	DeleteEntity(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error)
 	IsStatusFree(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error)
-	UploadImage(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadImageRequest, UploadImageResponse], error)
+	UploadImage(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[UploadImageRequest, UploadImageResponse], error)
 	DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*BoolResponse, error)
 	GetCoverImage(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*GetCoverImageResponse, error)
 	GetImageList(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*GetImageListResponse, error)
@@ -79,7 +79,7 @@ func (c *imageClient) IsStatusFree(ctx context.Context, in *CommonMetadata, opts
 	return out, nil
 }
 
-func (c *imageClient) UploadImage(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadImageRequest, UploadImageResponse], error) {
+func (c *imageClient) UploadImage(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[UploadImageRequest, UploadImageResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &Image_ServiceDesc.Streams[0], Image_UploadImage_FullMethodName, cOpts...)
 	if err != nil {
@@ -90,7 +90,7 @@ func (c *imageClient) UploadImage(ctx context.Context, opts ...grpc.CallOption) 
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Image_UploadImageClient = grpc.ClientStreamingClient[UploadImageRequest, UploadImageResponse]
+type Image_UploadImageClient = grpc.BidiStreamingClient[UploadImageRequest, UploadImageResponse]
 
 func (c *imageClient) DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*BoolResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -129,7 +129,7 @@ type ImageServer interface {
 	CreateEntity(context.Context, *CreateEntityRequest) (*BoolResponse, error)
 	DeleteEntity(context.Context, *CommonMetadata) (*BoolResponse, error)
 	IsStatusFree(context.Context, *CommonMetadata) (*BoolResponse, error)
-	UploadImage(grpc.ClientStreamingServer[UploadImageRequest, UploadImageResponse]) error
+	UploadImage(grpc.BidiStreamingServer[UploadImageRequest, UploadImageResponse]) error
 	DeleteImage(context.Context, *DeleteImageRequest) (*BoolResponse, error)
 	GetCoverImage(context.Context, *CommonMetadata) (*GetCoverImageResponse, error)
 	GetImageList(context.Context, *CommonMetadata) (*GetImageListResponse, error)
@@ -152,7 +152,7 @@ func (UnimplementedImageServer) DeleteEntity(context.Context, *CommonMetadata) (
 func (UnimplementedImageServer) IsStatusFree(context.Context, *CommonMetadata) (*BoolResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsStatusFree not implemented")
 }
-func (UnimplementedImageServer) UploadImage(grpc.ClientStreamingServer[UploadImageRequest, UploadImageResponse]) error {
+func (UnimplementedImageServer) UploadImage(grpc.BidiStreamingServer[UploadImageRequest, UploadImageResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method UploadImage not implemented")
 }
 func (UnimplementedImageServer) DeleteImage(context.Context, *DeleteImageRequest) (*BoolResponse, error) {
@@ -244,7 +244,7 @@ func _Image_UploadImage_Handler(srv interface{}, stream grpc.ServerStream) error
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Image_UploadImageServer = grpc.ClientStreamingServer[UploadImageRequest, UploadImageResponse]
+type Image_UploadImageServer = grpc.BidiStreamingServer[UploadImageRequest, UploadImageResponse]
 
 func _Image_DeleteImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteImageRequest)
@@ -336,6 +336,7 @@ var Image_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "UploadImage",
 			Handler:       _Image_UploadImage_Handler,
+			ServerStreams: true,
 			ClientStreams: true,
 		},
 	},

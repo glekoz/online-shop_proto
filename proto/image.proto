@@ -6,7 +6,7 @@ service Image {
     rpc CreateEntity(CreateEntityRequest) returns (BoolResponse);
     rpc DeleteEntity(CommonMetadata) returns (BoolResponse);
     rpc IsStatusFree(CommonMetadata) returns (BoolResponse);
-    rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+    rpc UploadImage(stream UploadImageRequest) returns (stream UploadImageResponse);
     rpc DeleteImage(DeleteImageRequest) returns (BoolResponse);
     rpc GetCoverImage(CommonMetadata) returns (GetCoverImageResponse);
     rpc GetImageList(CommonMetadata) returns (GetImageListResponse);
@@ -33,12 +33,13 @@ message UploadImageRequest {
 
 message UploadImageResponse {
     string image_id = 1;
+    string err = 2;
 }
 
 
 message DeleteImageRequest {
     CommonMetadata common_metadata = 1;
-    string image_path= 2;
+    repeated string image_path= 2;
 }
 
 message BoolResponse {
