@@ -18,16 +18,11 @@ message CommonMetadata {
 }
 
 
-message UploadImageMetadata {
-    CommonMetadata common_metadata = 1;
-    bool is_cover = 2;
-}
-
 message UploadImageRequest {
     oneof data {
-        UploadImageMetadata metadata = 1;
+        CommonMetadata metadata = 1;
         bytes image_chunk = 2;
-        bool end_of_image = 3;
+        bool is_cover = 3;
     }
 }
 
