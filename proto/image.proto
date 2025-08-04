@@ -27,6 +27,7 @@ message UploadImageRequest {
     oneof data {
         UploadImageMetadata metadata = 1;
         bytes image_chunk = 2;
+        bool end_of_image = 3;
     }
 }
 

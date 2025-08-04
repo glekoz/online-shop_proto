@@ -131,6 +131,7 @@ type UploadImageRequest struct {
 	//
 	//	*UploadImageRequest_Metadata
 	//	*UploadImageRequest_ImageChunk
+	//	*UploadImageRequest_EndOfImage
 	Data          isUploadImageRequest_Data `protobuf_oneof:"data"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -191,6 +192,15 @@ func (x *UploadImageRequest) GetImageChunk() []byte {
 	return nil
 }
 
+func (x *UploadImageRequest) GetEndOfImage() bool {
+	if x != nil {
+		if x, ok := x.Data.(*UploadImageRequest_EndOfImage); ok {
+			return x.EndOfImage
+		}
+	}
+	return false
+}
+
 type isUploadImageRequest_Data interface {
 	isUploadImageRequest_Data()
 }
@@ -203,9 +213,15 @@ type UploadImageRequest_ImageChunk struct {
 	ImageChunk []byte `protobuf:"bytes,2,opt,name=image_chunk,json=imageChunk,proto3,oneof"`
 }
 
+type UploadImageRequest_EndOfImage struct {
+	EndOfImage bool `protobuf:"varint,3,opt,name=end_of_image,json=endOfImage,proto3,oneof"`
+}
+
 func (*UploadImageRequest_Metadata) isUploadImageRequest_Data() {}
 
 func (*UploadImageRequest_ImageChunk) isUploadImageRequest_Data() {}
+
+func (*UploadImageRequest_EndOfImage) isUploadImageRequest_Data() {}
 
 type UploadImageResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -541,11 +557,13 @@ const file_image_proto_rawDesc = "" +
 	"\tentity_id\x18\x02 \x01(\tR\bentityId\"j\n" +
 	"\x13UploadImageMetadata\x128\n" +
 	"\x0fcommon_metadata\x18\x01 \x01(\v2\x0f.CommonMetadataR\x0ecommonMetadata\x12\x19\n" +
-	"\bis_cover\x18\x02 \x01(\bR\aisCover\"s\n" +
+	"\bis_cover\x18\x02 \x01(\bR\aisCover\"\x97\x01\n" +
 	"\x12UploadImageRequest\x122\n" +
 	"\bmetadata\x18\x01 \x01(\v2\x14.UploadImageMetadataH\x00R\bmetadata\x12!\n" +
 	"\vimage_chunk\x18\x02 \x01(\fH\x00R\n" +
-	"imageChunkB\x06\n" +
+	"imageChunk\x12\"\n" +
+	"\fend_of_image\x18\x03 \x01(\bH\x00R\n" +
+	"endOfImageB\x06\n" +
 	"\x04data\"0\n" +
 	"\x13UploadImageResponse\x12\x19\n" +
 	"\bimage_id\x18\x01 \x01(\tR\aimageId\"m\n" +
@@ -634,6 +652,7 @@ func file_image_proto_init() {
 	file_image_proto_msgTypes[2].OneofWrappers = []any{
 		(*UploadImageRequest_Metadata)(nil),
 		(*UploadImageRequest_ImageChunk)(nil),
+		(*UploadImageRequest_EndOfImage)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
