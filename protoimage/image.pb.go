@@ -9,6 +9,7 @@ package protoimage
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -140,13 +141,13 @@ func (x *UploadImageRequest) GetImageChunk() []byte {
 	return nil
 }
 
-func (x *UploadImageRequest) GetIsCover() bool {
+func (x *UploadImageRequest) GetIsCover() *wrapperspb.BoolValue {
 	if x != nil {
 		if x, ok := x.Data.(*UploadImageRequest_IsCover); ok {
 			return x.IsCover
 		}
 	}
-	return false
+	return nil
 }
 
 type isUploadImageRequest_Data interface {
@@ -162,7 +163,8 @@ type UploadImageRequest_ImageChunk struct {
 }
 
 type UploadImageRequest_IsCover struct {
-	IsCover bool `protobuf:"varint,3,opt,name=is_cover,json=isCover,proto3,oneof"`
+	// bool is_cover = 3;
+	IsCover *wrapperspb.BoolValue `protobuf:"bytes,3,opt,name=is_cover,json=isCover,proto3,oneof"`
 }
 
 func (*UploadImageRequest_Metadata) isUploadImageRequest_Data() {}
@@ -507,15 +509,15 @@ var File_image_proto protoreflect.FileDescriptor
 
 const file_image_proto_rawDesc = "" +
 	"\n" +
-	"\vimage.proto\"G\n" +
+	"\vimage.proto\x1a\x1egoogle/protobuf/wrappers.proto\"G\n" +
 	"\x0eCommonMetadata\x12\x18\n" +
 	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1b\n" +
-	"\tentity_id\x18\x02 \x01(\tR\bentityId\"\x8b\x01\n" +
+	"\tentity_id\x18\x02 \x01(\tR\bentityId\"\xa7\x01\n" +
 	"\x12UploadImageRequest\x12-\n" +
 	"\bmetadata\x18\x01 \x01(\v2\x0f.CommonMetadataH\x00R\bmetadata\x12!\n" +
 	"\vimage_chunk\x18\x02 \x01(\fH\x00R\n" +
-	"imageChunk\x12\x1b\n" +
-	"\bis_cover\x18\x03 \x01(\bH\x00R\aisCoverB\x06\n" +
+	"imageChunk\x127\n" +
+	"\bis_cover\x18\x03 \x01(\v2\x1a.google.protobuf.BoolValueH\x00R\aisCoverB\x06\n" +
 	"\x04data\"B\n" +
 	"\x13UploadImageResponse\x12\x19\n" +
 	"\bimage_id\x18\x01 \x01(\tR\aimageId\x12\x10\n" +
@@ -568,31 +570,33 @@ var file_image_proto_goTypes = []any{
 	(*DeleteEntityRequest)(nil),   // 6: DeleteEntityRequest
 	(*GetCoverImageResponse)(nil), // 7: GetCoverImageResponse
 	(*GetImageListResponse)(nil),  // 8: GetImageListResponse
+	(*wrapperspb.BoolValue)(nil),  // 9: google.protobuf.BoolValue
 }
 var file_image_proto_depIdxs = []int32{
 	0,  // 0: UploadImageRequest.metadata:type_name -> CommonMetadata
-	0,  // 1: DeleteImageRequest.common_metadata:type_name -> CommonMetadata
-	0,  // 2: CreateEntityRequest.common_metadata:type_name -> CommonMetadata
-	0,  // 3: DeleteEntityRequest.common_metadata:type_name -> CommonMetadata
-	5,  // 4: Image.CreateEntity:input_type -> CreateEntityRequest
-	0,  // 5: Image.DeleteEntity:input_type -> CommonMetadata
-	0,  // 6: Image.IsStatusFree:input_type -> CommonMetadata
-	1,  // 7: Image.UploadImage:input_type -> UploadImageRequest
-	3,  // 8: Image.DeleteImage:input_type -> DeleteImageRequest
-	0,  // 9: Image.GetCoverImage:input_type -> CommonMetadata
-	0,  // 10: Image.GetImageList:input_type -> CommonMetadata
-	4,  // 11: Image.CreateEntity:output_type -> BoolResponse
-	4,  // 12: Image.DeleteEntity:output_type -> BoolResponse
-	4,  // 13: Image.IsStatusFree:output_type -> BoolResponse
-	2,  // 14: Image.UploadImage:output_type -> UploadImageResponse
-	4,  // 15: Image.DeleteImage:output_type -> BoolResponse
-	7,  // 16: Image.GetCoverImage:output_type -> GetCoverImageResponse
-	8,  // 17: Image.GetImageList:output_type -> GetImageListResponse
-	11, // [11:18] is the sub-list for method output_type
-	4,  // [4:11] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	9,  // 1: UploadImageRequest.is_cover:type_name -> google.protobuf.BoolValue
+	0,  // 2: DeleteImageRequest.common_metadata:type_name -> CommonMetadata
+	0,  // 3: CreateEntityRequest.common_metadata:type_name -> CommonMetadata
+	0,  // 4: DeleteEntityRequest.common_metadata:type_name -> CommonMetadata
+	5,  // 5: Image.CreateEntity:input_type -> CreateEntityRequest
+	0,  // 6: Image.DeleteEntity:input_type -> CommonMetadata
+	0,  // 7: Image.IsStatusFree:input_type -> CommonMetadata
+	1,  // 8: Image.UploadImage:input_type -> UploadImageRequest
+	3,  // 9: Image.DeleteImage:input_type -> DeleteImageRequest
+	0,  // 10: Image.GetCoverImage:input_type -> CommonMetadata
+	0,  // 11: Image.GetImageList:input_type -> CommonMetadata
+	4,  // 12: Image.CreateEntity:output_type -> BoolResponse
+	4,  // 13: Image.DeleteEntity:output_type -> BoolResponse
+	4,  // 14: Image.IsStatusFree:output_type -> BoolResponse
+	2,  // 15: Image.UploadImage:output_type -> UploadImageResponse
+	4,  // 16: Image.DeleteImage:output_type -> BoolResponse
+	7,  // 17: Image.GetCoverImage:output_type -> GetCoverImageResponse
+	8,  // 18: Image.GetImageList:output_type -> GetImageListResponse
+	12, // [12:19] is the sub-list for method output_type
+	5,  // [5:12] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_image_proto_init() }

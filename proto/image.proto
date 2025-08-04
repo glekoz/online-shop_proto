@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/wrappers.proto";
+
 option go_package = "github.com/Gleb988/online-shop_proto/protoimage";
 
 service Image {
@@ -22,7 +24,8 @@ message UploadImageRequest {
     oneof data {
         CommonMetadata metadata = 1;
         bytes image_chunk = 2;
-        bool is_cover = 3;
+        //bool is_cover = 3;
+        google.protobuf.BoolValue is_cover = 3;
     }
 }
 
