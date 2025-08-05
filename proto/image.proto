@@ -40,6 +40,11 @@ message DeleteImageRequest {
     repeated string image_path= 2;
 }
 
+message DeleteImageResponse {
+    repeated UploadImageResponse resp = 1;
+}
+
+
 message BoolResponse {
     bool ok = 1;
 }
