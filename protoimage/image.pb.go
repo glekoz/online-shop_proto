@@ -583,13 +583,13 @@ const file_image_proto_rawDesc = "" +
 	"\x10cover_image_path\x18\x01 \x01(\tR\x0ecoverImagePath\"5\n" +
 	"\x14GetImageListResponse\x12\x1d\n" +
 	"\n" +
-	"image_path\x18\x01 \x03(\tR\timagePath2\xff\x02\n" +
+	"image_path\x18\x01 \x03(\tR\timagePath2\x86\x03\n" +
 	"\x05Image\x123\n" +
 	"\fCreateEntity\x12\x14.CreateEntityRequest\x1a\r.BoolResponse\x12.\n" +
 	"\fDeleteEntity\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12.\n" +
 	"\fIsStatusFree\x12\x0f.CommonMetadata\x1a\r.BoolResponse\x12<\n" +
-	"\vUploadImage\x12\x13.UploadImageRequest\x1a\x14.UploadImageResponse(\x010\x01\x121\n" +
-	"\vDeleteImage\x12\x13.DeleteImageRequest\x1a\r.BoolResponse\x128\n" +
+	"\vUploadImage\x12\x13.UploadImageRequest\x1a\x14.UploadImageResponse(\x010\x01\x128\n" +
+	"\vDeleteImage\x12\x13.DeleteImageRequest\x1a\x14.DeleteImageResponse\x128\n" +
 	"\rGetCoverImage\x12\x0f.CommonMetadata\x1a\x16.GetCoverImageResponse\x126\n" +
 	"\fGetImageList\x12\x0f.CommonMetadata\x1a\x15.GetImageListResponseB1Z/github.com/Gleb988/online-shop_proto/protoimageb\x06proto3"
 
@@ -637,7 +637,7 @@ var file_image_proto_depIdxs = []int32{
 	5,  // 14: Image.DeleteEntity:output_type -> BoolResponse
 	5,  // 15: Image.IsStatusFree:output_type -> BoolResponse
 	2,  // 16: Image.UploadImage:output_type -> UploadImageResponse
-	5,  // 17: Image.DeleteImage:output_type -> BoolResponse
+	4,  // 17: Image.DeleteImage:output_type -> DeleteImageResponse
 	8,  // 18: Image.GetCoverImage:output_type -> GetCoverImageResponse
 	9,  // 19: Image.GetImageList:output_type -> GetImageListResponse
 	13, // [13:20] is the sub-list for method output_type

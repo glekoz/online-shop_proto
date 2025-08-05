@@ -9,7 +9,7 @@ service Image {
     rpc DeleteEntity(CommonMetadata) returns (BoolResponse);
     rpc IsStatusFree(CommonMetadata) returns (BoolResponse);
     rpc UploadImage(stream UploadImageRequest) returns (stream UploadImageResponse);
-    rpc DeleteImage(DeleteImageRequest) returns (BoolResponse);
+    rpc DeleteImage(DeleteImageRequest) returns (DeleteImageResponse);
     rpc GetCoverImage(CommonMetadata) returns (GetCoverImageResponse);
     rpc GetImageList(CommonMetadata) returns (GetImageListResponse);
 }

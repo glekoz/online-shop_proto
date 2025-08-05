@@ -36,7 +36,7 @@ type ImageClient interface {
 	DeleteEntity(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error)
 	IsStatusFree(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*BoolResponse, error)
 	UploadImage(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[UploadImageRequest, UploadImageResponse], error)
-	DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*BoolResponse, error)
+	DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*DeleteImageResponse, error)
 	GetCoverImage(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*GetCoverImageResponse, error)
 	GetImageList(ctx context.Context, in *CommonMetadata, opts ...grpc.CallOption) (*GetImageListResponse, error)
 }
@@ -92,9 +92,9 @@ func (c *imageClient) UploadImage(ctx context.Context, opts ...grpc.CallOption) 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type Image_UploadImageClient = grpc.BidiStreamingClient[UploadImageRequest, UploadImageResponse]
 
-func (c *imageClient) DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*BoolResponse, error) {
+func (c *imageClient) DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*DeleteImageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(BoolResponse)
+	out := new(DeleteImageResponse)
 	err := c.cc.Invoke(ctx, Image_DeleteImage_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,7 @@ type ImageServer interface {
 	DeleteEntity(context.Context, *CommonMetadata) (*BoolResponse, error)
 	IsStatusFree(context.Context, *CommonMetadata) (*BoolResponse, error)
 	UploadImage(grpc.BidiStreamingServer[UploadImageRequest, UploadImageResponse]) error
-	DeleteImage(context.Context, *DeleteImageRequest) (*BoolResponse, error)
+	DeleteImage(context.Context, *DeleteImageRequest) (*DeleteImageResponse, error)
 	GetCoverImage(context.Context, *CommonMetadata) (*GetCoverImageResponse, error)
 	GetImageList(context.Context, *CommonMetadata) (*GetImageListResponse, error)
 	mustEmbedUnimplementedImageServer()
@@ -155,7 +155,7 @@ func (UnimplementedImageServer) IsStatusFree(context.Context, *CommonMetadata) (
 func (UnimplementedImageServer) UploadImage(grpc.BidiStreamingServer[UploadImageRequest, UploadImageResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method UploadImage not implemented")
 }
-func (UnimplementedImageServer) DeleteImage(context.Context, *DeleteImageRequest) (*BoolResponse, error) {
+func (UnimplementedImageServer) DeleteImage(context.Context, *DeleteImageRequest) (*DeleteImageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteImage not implemented")
 }
 func (UnimplementedImageServer) GetCoverImage(context.Context, *CommonMetadata) (*GetCoverImageResponse, error) {
