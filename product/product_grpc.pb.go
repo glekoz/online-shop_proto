@@ -4,7 +4,7 @@
 // - protoc             v6.31.1
 // source: product.proto
 
-package protoproduct
+package product
 
 import (
 	context "context"
@@ -19,135 +19,141 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Product_Create_FullMethodName = "/Product/Create"
-	Product_Get_FullMethodName    = "/Product/Get"
+	GRPCProduct_Create_FullMethodName = "/GRPCProduct/Create"
+	GRPCProduct_Get_FullMethodName    = "/GRPCProduct/Get"
 )
 
-// ProductClient is the client API for Product service.
+// GRPCProductClient is the client API for GRPCProduct service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ProductClient interface {
-	Create(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[CreateProductRequest, CreateProductResponse], error)
-	Get(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error)
+type GRPCProductClient interface {
+	Create(ctx context.Context, in *Product, opts ...grpc.CallOption) (*ID, error)
+	Get(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Product, error)
 }
 
-type productClient struct {
+type gRPCProductClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewProductClient(cc grpc.ClientConnInterface) ProductClient {
-	return &productClient{cc}
+func NewGRPCProductClient(cc grpc.ClientConnInterface) GRPCProductClient {
+	return &gRPCProductClient{cc}
 }
 
-func (c *productClient) Create(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[CreateProductRequest, CreateProductResponse], error) {
+func (c *gRPCProductClient) Create(ctx context.Context, in *Product, opts ...grpc.CallOption) (*ID, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &Product_ServiceDesc.Streams[0], Product_Create_FullMethodName, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &grpc.GenericClientStream[CreateProductRequest, CreateProductResponse]{ClientStream: stream}
-	return x, nil
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Product_CreateClient = grpc.ClientStreamingClient[CreateProductRequest, CreateProductResponse]
-
-func (c *productClient) Get(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetProductResponse)
-	err := c.cc.Invoke(ctx, Product_Get_FullMethodName, in, out, cOpts...)
+	out := new(ID)
+	err := c.cc.Invoke(ctx, GRPCProduct_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ProductServer is the server API for Product service.
-// All implementations must embed UnimplementedProductServer
-// for forward compatibility.
-type ProductServer interface {
-	Create(grpc.ClientStreamingServer[CreateProductRequest, CreateProductResponse]) error
-	Get(context.Context, *GetProductRequest) (*GetProductResponse, error)
-	mustEmbedUnimplementedProductServer()
+func (c *gRPCProductClient) Get(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Product, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Product)
+	err := c.cc.Invoke(ctx, GRPCProduct_Get_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedProductServer must be embedded to have
+// GRPCProductServer is the server API for GRPCProduct service.
+// All implementations must embed UnimplementedGRPCProductServer
+// for forward compatibility.
+type GRPCProductServer interface {
+	Create(context.Context, *Product) (*ID, error)
+	Get(context.Context, *ID) (*Product, error)
+	mustEmbedUnimplementedGRPCProductServer()
+}
+
+// UnimplementedGRPCProductServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedProductServer struct{}
+type UnimplementedGRPCProductServer struct{}
 
-func (UnimplementedProductServer) Create(grpc.ClientStreamingServer[CreateProductRequest, CreateProductResponse]) error {
-	return status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedGRPCProductServer) Create(context.Context, *Product) (*ID, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedProductServer) Get(context.Context, *GetProductRequest) (*GetProductResponse, error) {
+func (UnimplementedGRPCProductServer) Get(context.Context, *ID) (*Product, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedProductServer) mustEmbedUnimplementedProductServer() {}
-func (UnimplementedProductServer) testEmbeddedByValue()                 {}
+func (UnimplementedGRPCProductServer) mustEmbedUnimplementedGRPCProductServer() {}
+func (UnimplementedGRPCProductServer) testEmbeddedByValue()                     {}
 
-// UnsafeProductServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ProductServer will
+// UnsafeGRPCProductServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GRPCProductServer will
 // result in compilation errors.
-type UnsafeProductServer interface {
-	mustEmbedUnimplementedProductServer()
+type UnsafeGRPCProductServer interface {
+	mustEmbedUnimplementedGRPCProductServer()
 }
 
-func RegisterProductServer(s grpc.ServiceRegistrar, srv ProductServer) {
-	// If the following call pancis, it indicates UnimplementedProductServer was
+func RegisterGRPCProductServer(s grpc.ServiceRegistrar, srv GRPCProductServer) {
+	// If the following call pancis, it indicates UnimplementedGRPCProductServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Product_ServiceDesc, srv)
+	s.RegisterService(&GRPCProduct_ServiceDesc, srv)
 }
 
-func _Product_Create_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ProductServer).Create(&grpc.GenericServerStream[CreateProductRequest, CreateProductResponse]{ServerStream: stream})
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Product_CreateServer = grpc.ClientStreamingServer[CreateProductRequest, CreateProductResponse]
-
-func _Product_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetProductRequest)
+func _GRPCProduct_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Product)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServer).Get(ctx, in)
+		return srv.(GRPCProductServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Product_Get_FullMethodName,
+		FullMethod: GRPCProduct_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServer).Get(ctx, req.(*GetProductRequest))
+		return srv.(GRPCProductServer).Create(ctx, req.(*Product))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Product_ServiceDesc is the grpc.ServiceDesc for Product service.
+func _GRPCProduct_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GRPCProductServer).Get(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GRPCProduct_Get_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GRPCProductServer).Get(ctx, req.(*ID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// GRPCProduct_ServiceDesc is the grpc.ServiceDesc for GRPCProduct service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Product_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Product",
-	HandlerType: (*ProductServer)(nil),
+var GRPCProduct_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "GRPCProduct",
+	HandlerType: (*GRPCProductServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _Product_Get_Handler,
+			MethodName: "Create",
+			Handler:    _GRPCProduct_Create_Handler,
 		},
-	},
-	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "Create",
-			Handler:       _Product_Create_Handler,
-			ClientStreams: true,
+			MethodName: "Get",
+			Handler:    _GRPCProduct_Get_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "product.proto",
 }

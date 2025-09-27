@@ -3,8 +3,8 @@ syntax = "proto3";
 option go_package = "github.com/glekoz/online-shop_proto/product";
 
 service GRPCProduct {
-  rpc Create(CreateProductRequest) returns (ID);
-  rpc Get(ID) returns (GetProductResponse);
+  rpc Create(Product) returns (ID);
+  rpc Get(ID) returns (Product);
 }
 
 message Product {
@@ -17,12 +17,4 @@ message ID {
   string id = 1;
 }
 
-message CreateProductRequest {
-  Product pr = 1;
-}
-
-message GetProductResponse {
-  Product pr = 1;
-}
-
-// protoc -I ./proto --go_out ./protoproduct --go-grpc_out ./protoproduct --go_opt paths=source_relative --go-grpc_opt paths=source_relative .\proto\product.proto
+// protoc -I ./proto --go_out ./product --go-grpc_out ./product --go_opt paths=source_relative --go-grpc_opt paths=source_relative .\proto\product.proto
