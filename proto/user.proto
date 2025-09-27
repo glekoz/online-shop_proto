@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/Gleb988/online-shop_proto/protouser";
+option go_package = "github.com/glekoz/online-shop_proto/user";
 
 service User {
     rpc Create(CreateUserRequest) returns (CreateUserResponse);

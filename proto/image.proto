@@ -2,7 +2,10 @@ syntax = "proto3";
 
 import "google/protobuf/wrappers.proto";
 
-option go_package = "github.com/Gleb988/online-shop_proto/protoimage";
+option go_package = "github.com/glekoz/online-shop_proto/image";
+
+// Для UploadImageRequest можно ещё добавить idempodency key, чтобы различать, какие изображения были успешно обработаны,
+// а какие, возможно, стоит ретраить (gRPC retry) из-за сетевой ошибки
 
 service Image {
     rpc CreateEntity(CreateEntityRequest) returns (BoolResponse);

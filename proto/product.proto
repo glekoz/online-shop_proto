@@ -1,36 +1,28 @@
 syntax = "proto3";
 
-option go_package = "github.com/Gleb988/online-shop_proto/protoproduct";
+option go_package = "github.com/glekoz/online-shop_proto/product";
 
-service Product {
-  rpc Create(stream CreateProductRequest) returns (CreateProductResponse);
-  rpc Get(GetProductRequest) returns (GetProductResponse);
+service GRPCProduct {
+  rpc Create(CreateProductRequest) returns (ID);
+  rpc Get(ID) returns (GetProductResponse);
 }
 
-message Metadata {
+message Product {
   string name = 1;
   string description = 2;
   int32 price = 3;
 }
 
+message ID {
+  string id = 1;
+}
+
 message CreateProductRequest {
-  oneof data {
-    Metadata metadata = 1;
-    bytes image_chunk = 2;
-  }
+  Product pr = 1;
 }
-message CreateProductResponse {
-  int32 id = 1;
-}
-message GetProductRequest {
-  int32 id = 1;
-}
+
 message GetProductResponse {
-  int32 id = 1;
-  string name = 2;
-  string description = 3;
-  int32 price = 4;
-  string image_url = 5; // URL of the product image
+  Product pr = 1;
 }
 
 // protoc -I ./proto --go_out ./protoproduct --go-grpc_out ./protoproduct --go_opt paths=source_relative --go-grpc_opt paths=source_relative .\proto\product.proto
