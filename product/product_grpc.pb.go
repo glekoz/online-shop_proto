@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -21,6 +22,9 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	GRPCProduct_Create_FullMethodName = "/GRPCProduct/Create"
 	GRPCProduct_Get_FullMethodName    = "/GRPCProduct/Get"
+	GRPCProduct_GetAll_FullMethodName = "/GRPCProduct/GetAll"
+	GRPCProduct_Delete_FullMethodName = "/GRPCProduct/Delete"
+	GRPCProduct_Update_FullMethodName = "/GRPCProduct/Update"
 )
 
 // GRPCProductClient is the client API for GRPCProduct service.
@@ -29,6 +33,9 @@ const (
 type GRPCProductClient interface {
 	Create(ctx context.Context, in *Product, opts ...grpc.CallOption) (*ID, error)
 	Get(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Product, error)
+	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllResponse, error)
+	Delete(ctx context.Context, in *ID, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type gRPCProductClient struct {
@@ -59,12 +66,45 @@ func (c *gRPCProductClient) Get(ctx context.Context, in *ID, opts ...grpc.CallOp
 	return out, nil
 }
 
+func (c *gRPCProductClient) GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllResponse)
+	err := c.cc.Invoke(ctx, GRPCProduct_GetAll_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gRPCProductClient) Delete(ctx context.Context, in *ID, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, GRPCProduct_Delete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gRPCProductClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, GRPCProduct_Update_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GRPCProductServer is the server API for GRPCProduct service.
 // All implementations must embed UnimplementedGRPCProductServer
 // for forward compatibility.
 type GRPCProductServer interface {
 	Create(context.Context, *Product) (*ID, error)
 	Get(context.Context, *ID) (*Product, error)
+	GetAll(context.Context, *emptypb.Empty) (*GetAllResponse, error)
+	Delete(context.Context, *ID) (*emptypb.Empty, error)
+	Update(context.Context, *UpdateRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedGRPCProductServer()
 }
 
@@ -80,6 +120,15 @@ func (UnimplementedGRPCProductServer) Create(context.Context, *Product) (*ID, er
 }
 func (UnimplementedGRPCProductServer) Get(context.Context, *ID) (*Product, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (UnimplementedGRPCProductServer) GetAll(context.Context, *emptypb.Empty) (*GetAllResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
+}
+func (UnimplementedGRPCProductServer) Delete(context.Context, *ID) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedGRPCProductServer) Update(context.Context, *UpdateRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedGRPCProductServer) mustEmbedUnimplementedGRPCProductServer() {}
 func (UnimplementedGRPCProductServer) testEmbeddedByValue()                     {}
@@ -138,6 +187,60 @@ func _GRPCProduct_Get_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GRPCProduct_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GRPCProductServer).GetAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GRPCProduct_GetAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GRPCProductServer).GetAll(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GRPCProduct_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GRPCProductServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GRPCProduct_Delete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GRPCProductServer).Delete(ctx, req.(*ID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GRPCProduct_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GRPCProductServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GRPCProduct_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GRPCProductServer).Update(ctx, req.(*UpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GRPCProduct_ServiceDesc is the grpc.ServiceDesc for GRPCProduct service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +255,18 @@ var GRPCProduct_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Get",
 			Handler:    _GRPCProduct_Get_Handler,
+		},
+		{
+			MethodName: "GetAll",
+			Handler:    _GRPCProduct_GetAll_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _GRPCProduct_Delete_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _GRPCProduct_Update_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

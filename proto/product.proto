@@ -1,10 +1,15 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 option go_package = "github.com/glekoz/online-shop_proto/product";
 
 service GRPCProduct {
   rpc Create(Product) returns (ID);
   rpc Get(ID) returns (Product);
+  rpc GetAll(google.protobuf.Empty) returns (GetAllResponse);
+  rpc Delete(ID) returns(google.protobuf.Empty);
+  rpc Update(UpdateRequest) returns (google.protobuf.Empty);
 }
 
 message Product {
@@ -15,6 +20,21 @@ message Product {
 
 message ID {
   string id = 1;
+}
+
+message UpdateRequest {
+  string id = 1;
+  Product product = 2;
+}
+
+message ProductDigest {
+  string id = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message GetAllResponse {
+  repeated ProductDigest products = 1;
 }
 
 // protoc -I ./proto --go_out ./product --go-grpc_out ./product --go_opt paths=source_relative --go-grpc_opt paths=source_relative .\proto\product.proto
