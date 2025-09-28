@@ -9,6 +9,7 @@ package product
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -125,20 +126,188 @@ func (x *ID) GetId() string {
 	return ""
 }
 
+type UpdateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Product       *Product               `protobuf:"bytes,2,opt,name=product,proto3" json:"product,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateRequest) Reset() {
+	*x = UpdateRequest{}
+	mi := &file_product_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateRequest) ProtoMessage() {}
+
+func (x *UpdateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateRequest.ProtoReflect.Descriptor instead.
+func (*UpdateRequest) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetProduct() *Product {
+	if x != nil {
+		return x.Product
+	}
+	return nil
+}
+
+type ProductDigest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProductDigest) Reset() {
+	*x = ProductDigest{}
+	mi := &file_product_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProductDigest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProductDigest) ProtoMessage() {}
+
+func (x *ProductDigest) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProductDigest.ProtoReflect.Descriptor instead.
+func (*ProductDigest) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ProductDigest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ProductDigest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ProductDigest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type GetAllResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Products      []*ProductDigest       `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllResponse) Reset() {
+	*x = GetAllResponse{}
+	mi := &file_product_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllResponse) ProtoMessage() {}
+
+func (x *GetAllResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllResponse.ProtoReflect.Descriptor instead.
+func (*GetAllResponse) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetAllResponse) GetProducts() []*ProductDigest {
+	if x != nil {
+		return x.Products
+	}
+	return nil
+}
+
 var File_product_proto protoreflect.FileDescriptor
 
 const file_product_proto_rawDesc = "" +
 	"\n" +
-	"\rproduct.proto\"U\n" +
+	"\rproduct.proto\x1a\x1bgoogle/protobuf/empty.proto\"U\n" +
 	"\aProduct\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
 	"\x05price\x18\x03 \x01(\x05R\x05price\"\x14\n" +
 	"\x02ID\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id2<\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"C\n" +
+	"\rUpdateRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\"\n" +
+	"\aproduct\x18\x02 \x01(\v2\b.ProductR\aproduct\"U\n" +
+	"\rProductDigest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"<\n" +
+	"\x0eGetAllResponse\x12*\n" +
+	"\bproducts\x18\x01 \x03(\v2\x0e.ProductDigestR\bproducts2\xc8\x01\n" +
 	"\vGRPCProduct\x12\x17\n" +
 	"\x06Create\x12\b.Product\x1a\x03.ID\x12\x14\n" +
-	"\x03Get\x12\x03.ID\x1a\b.ProductB-Z+github.com/glekoz/online-shop_proto/productb\x06proto3"
+	"\x03Get\x12\x03.ID\x1a\b.Product\x121\n" +
+	"\x06GetAll\x12\x16.google.protobuf.Empty\x1a\x0f.GetAllResponse\x12%\n" +
+	"\x06Delete\x12\x03.ID\x1a\x16.google.protobuf.Empty\x120\n" +
+	"\x06Update\x12\x0e.UpdateRequest\x1a\x16.google.protobuf.EmptyB-Z+github.com/glekoz/online-shop_proto/productb\x06proto3"
 
 var (
 	file_product_proto_rawDescOnce sync.Once
@@ -152,21 +321,33 @@ func file_product_proto_rawDescGZIP() []byte {
 	return file_product_proto_rawDescData
 }
 
-var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_product_proto_goTypes = []any{
-	(*Product)(nil), // 0: Product
-	(*ID)(nil),      // 1: ID
+	(*Product)(nil),        // 0: Product
+	(*ID)(nil),             // 1: ID
+	(*UpdateRequest)(nil),  // 2: UpdateRequest
+	(*ProductDigest)(nil),  // 3: ProductDigest
+	(*GetAllResponse)(nil), // 4: GetAllResponse
+	(*emptypb.Empty)(nil),  // 5: google.protobuf.Empty
 }
 var file_product_proto_depIdxs = []int32{
-	0, // 0: GRPCProduct.Create:input_type -> Product
-	1, // 1: GRPCProduct.Get:input_type -> ID
-	1, // 2: GRPCProduct.Create:output_type -> ID
-	0, // 3: GRPCProduct.Get:output_type -> Product
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: UpdateRequest.product:type_name -> Product
+	3, // 1: GetAllResponse.products:type_name -> ProductDigest
+	0, // 2: GRPCProduct.Create:input_type -> Product
+	1, // 3: GRPCProduct.Get:input_type -> ID
+	5, // 4: GRPCProduct.GetAll:input_type -> google.protobuf.Empty
+	1, // 5: GRPCProduct.Delete:input_type -> ID
+	2, // 6: GRPCProduct.Update:input_type -> UpdateRequest
+	1, // 7: GRPCProduct.Create:output_type -> ID
+	0, // 8: GRPCProduct.Get:output_type -> Product
+	4, // 9: GRPCProduct.GetAll:output_type -> GetAllResponse
+	5, // 10: GRPCProduct.Delete:output_type -> google.protobuf.Empty
+	5, // 11: GRPCProduct.Update:output_type -> google.protobuf.Empty
+	7, // [7:12] is the sub-list for method output_type
+	2, // [2:7] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_product_proto_init() }
@@ -180,7 +361,7 @@ func file_product_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_proto_rawDesc), len(file_product_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
