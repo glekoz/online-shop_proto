@@ -19,16 +19,22 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_Register_FullMethodName = "/User/Register"
-	User_Login_FullMethodName    = "/User/Login"
+	User_Register_FullMethodName              = "/User/Register"
+	User_Login_FullMethodName                 = "/User/Login"
+	User_SendEmailConfirmation_FullMethodName = "/User/SendEmailConfirmation"
+	User_ConfirmEmail_FullMethodName          = "/User/ConfirmEmail"
+	User_GetNewAccessToken_FullMethodName     = "/User/GetNewAccessToken"
 )
 
 // UserClient is the client API for User service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
-	Register(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
-	Login(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
+	Register(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*LogRegResponse, error)
+	Login(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LogRegResponse, error)
+	SendEmailConfirmation(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*Empty, error)
+	ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...grpc.CallOption) (*Empty, error)
+	GetNewAccessToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Token, error)
 }
 
 type userClient struct {
@@ -39,9 +45,9 @@ func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
 }
 
-func (c *userClient) Register(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error) {
+func (c *userClient) Register(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*LogRegResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RegisterUserResponse)
+	out := new(LogRegResponse)
 	err := c.cc.Invoke(ctx, User_Register_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -49,10 +55,40 @@ func (c *userClient) Register(ctx context.Context, in *RegisterUserRequest, opts
 	return out, nil
 }
 
-func (c *userClient) Login(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error) {
+func (c *userClient) Login(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LogRegResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LoginUserResponse)
+	out := new(LogRegResponse)
 	err := c.cc.Invoke(ctx, User_Login_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) SendEmailConfirmation(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, User_SendEmailConfirmation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, User_ConfirmEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetNewAccessToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Token, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Token)
+	err := c.cc.Invoke(ctx, User_GetNewAccessToken_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,8 +99,11 @@ func (c *userClient) Login(ctx context.Context, in *LoginUserRequest, opts ...gr
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
 type UserServer interface {
-	Register(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
-	Login(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
+	Register(context.Context, *RegisterUserRequest) (*LogRegResponse, error)
+	Login(context.Context, *LoginUserRequest) (*LogRegResponse, error)
+	SendEmailConfirmation(context.Context, *UserID) (*Empty, error)
+	ConfirmEmail(context.Context, *ConfirmEmailRequest) (*Empty, error)
+	GetNewAccessToken(context.Context, *Token) (*Token, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -75,11 +114,20 @@ type UserServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserServer struct{}
 
-func (UnimplementedUserServer) Register(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error) {
+func (UnimplementedUserServer) Register(context.Context, *RegisterUserRequest) (*LogRegResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedUserServer) Login(context.Context, *LoginUserRequest) (*LoginUserResponse, error) {
+func (UnimplementedUserServer) Login(context.Context, *LoginUserRequest) (*LogRegResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedUserServer) SendEmailConfirmation(context.Context, *UserID) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendEmailConfirmation not implemented")
+}
+func (UnimplementedUserServer) ConfirmEmail(context.Context, *ConfirmEmailRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfirmEmail not implemented")
+}
+func (UnimplementedUserServer) GetNewAccessToken(context.Context, *Token) (*Token, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNewAccessToken not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -138,6 +186,60 @@ func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_SendEmailConfirmation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).SendEmailConfirmation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_SendEmailConfirmation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).SendEmailConfirmation(ctx, req.(*UserID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ConfirmEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ConfirmEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ConfirmEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ConfirmEmail(ctx, req.(*ConfirmEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetNewAccessToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Token)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetNewAccessToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetNewAccessToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetNewAccessToken(ctx, req.(*Token))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +254,18 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _User_Login_Handler,
+		},
+		{
+			MethodName: "SendEmailConfirmation",
+			Handler:    _User_SendEmailConfirmation_Handler,
+		},
+		{
+			MethodName: "ConfirmEmail",
+			Handler:    _User_ConfirmEmail_Handler,
+		},
+		{
+			MethodName: "GetNewAccessToken",
+			Handler:    _User_GetNewAccessToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
