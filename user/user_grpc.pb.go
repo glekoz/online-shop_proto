@@ -24,6 +24,7 @@ const (
 	User_SendEmailConfirmation_FullMethodName = "/User/SendEmailConfirmation"
 	User_ConfirmEmail_FullMethodName          = "/User/ConfirmEmail"
 	User_GetNewAccessToken_FullMethodName     = "/User/GetNewAccessToken"
+	User_GetRSAPublicKey_FullMethodName       = "/User/GetRSAPublicKey"
 )
 
 // UserClient is the client API for User service.
@@ -35,6 +36,7 @@ type UserClient interface {
 	SendEmailConfirmation(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*Empty, error)
 	ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...grpc.CallOption) (*Empty, error)
 	GetNewAccessToken(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Token, error)
+	GetRSAPublicKey(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*RSAPublicKey, error)
 }
 
 type userClient struct {
@@ -95,6 +97,16 @@ func (c *userClient) GetNewAccessToken(ctx context.Context, in *Token, opts ...g
 	return out, nil
 }
 
+func (c *userClient) GetRSAPublicKey(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*RSAPublicKey, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RSAPublicKey)
+	err := c.cc.Invoke(ctx, User_GetRSAPublicKey_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type UserServer interface {
 	SendEmailConfirmation(context.Context, *UserID) (*Empty, error)
 	ConfirmEmail(context.Context, *ConfirmEmailRequest) (*Empty, error)
 	GetNewAccessToken(context.Context, *Token) (*Token, error)
+	GetRSAPublicKey(context.Context, *Empty) (*RSAPublicKey, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedUserServer) ConfirmEmail(context.Context, *ConfirmEmailReques
 }
 func (UnimplementedUserServer) GetNewAccessToken(context.Context, *Token) (*Token, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNewAccessToken not implemented")
+}
+func (UnimplementedUserServer) GetRSAPublicKey(context.Context, *Empty) (*RSAPublicKey, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRSAPublicKey not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -240,6 +256,24 @@ func _User_GetNewAccessToken_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GetRSAPublicKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetRSAPublicKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetRSAPublicKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetRSAPublicKey(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +300,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetNewAccessToken",
 			Handler:    _User_GetNewAccessToken_Handler,
+		},
+		{
+			MethodName: "GetRSAPublicKey",
+			Handler:    _User_GetRSAPublicKey_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -237,6 +237,90 @@ func (x *ConfirmEmailRequest) GetMailToken() string {
 	return ""
 }
 
+type RSAPublicKey struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Kty           string                 `protobuf:"bytes,1,opt,name=kty,proto3" json:"kty,omitempty"`
+	Use           *string                `protobuf:"bytes,2,opt,name=use,proto3,oneof" json:"use,omitempty"`
+	Kid           string                 `protobuf:"bytes,3,opt,name=kid,proto3" json:"kid,omitempty"`
+	Alg           *string                `protobuf:"bytes,4,opt,name=alg,proto3,oneof" json:"alg,omitempty"`
+	N             string                 `protobuf:"bytes,5,opt,name=n,proto3" json:"n,omitempty"`
+	E             string                 `protobuf:"bytes,6,opt,name=e,proto3" json:"e,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RSAPublicKey) Reset() {
+	*x = RSAPublicKey{}
+	mi := &file_user_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RSAPublicKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RSAPublicKey) ProtoMessage() {}
+
+func (x *RSAPublicKey) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RSAPublicKey.ProtoReflect.Descriptor instead.
+func (*RSAPublicKey) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RSAPublicKey) GetKty() string {
+	if x != nil {
+		return x.Kty
+	}
+	return ""
+}
+
+func (x *RSAPublicKey) GetUse() string {
+	if x != nil && x.Use != nil {
+		return *x.Use
+	}
+	return ""
+}
+
+func (x *RSAPublicKey) GetKid() string {
+	if x != nil {
+		return x.Kid
+	}
+	return ""
+}
+
+func (x *RSAPublicKey) GetAlg() string {
+	if x != nil && x.Alg != nil {
+		return *x.Alg
+	}
+	return ""
+}
+
+func (x *RSAPublicKey) GetN() string {
+	if x != nil {
+		return x.N
+	}
+	return ""
+}
+
+func (x *RSAPublicKey) GetE() string {
+	if x != nil {
+		return x.E
+	}
+	return ""
+}
+
 type UserID struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -246,7 +330,7 @@ type UserID struct {
 
 func (x *UserID) Reset() {
 	*x = UserID{}
-	mi := &file_user_proto_msgTypes[4]
+	mi := &file_user_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -258,7 +342,7 @@ func (x *UserID) String() string {
 func (*UserID) ProtoMessage() {}
 
 func (x *UserID) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[4]
+	mi := &file_user_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -271,7 +355,7 @@ func (x *UserID) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserID.ProtoReflect.Descriptor instead.
 func (*UserID) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{4}
+	return file_user_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UserID) GetId() string {
@@ -290,7 +374,7 @@ type Token struct {
 
 func (x *Token) Reset() {
 	*x = Token{}
-	mi := &file_user_proto_msgTypes[5]
+	mi := &file_user_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -302,7 +386,7 @@ func (x *Token) String() string {
 func (*Token) ProtoMessage() {}
 
 func (x *Token) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[5]
+	mi := &file_user_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -315,7 +399,7 @@ func (x *Token) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Token.ProtoReflect.Descriptor instead.
 func (*Token) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{5}
+	return file_user_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Token) GetToken() string {
@@ -333,7 +417,7 @@ type Empty struct {
 
 func (x *Empty) Reset() {
 	*x = Empty{}
-	mi := &file_user_proto_msgTypes[6]
+	mi := &file_user_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -345,7 +429,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[6]
+	mi := &file_user_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -358,7 +442,7 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{6}
+	return file_user_proto_rawDescGZIP(), []int{7}
 }
 
 var File_user_proto protoreflect.FileDescriptor
@@ -379,18 +463,28 @@ const file_user_proto_rawDesc = "" +
 	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\"K\n" +
 	"\x13ConfirmEmailRequest\x12\x16\n" +
 	"\x06userID\x18\x01 \x01(\tR\x06userID\x12\x1c\n" +
-	"\tmailToken\x18\x02 \x01(\tR\tmailToken\"\x18\n" +
+	"\tmailToken\x18\x02 \x01(\tR\tmailToken\"\x8c\x01\n" +
+	"\fRSAPublicKey\x12\x10\n" +
+	"\x03kty\x18\x01 \x01(\tR\x03kty\x12\x15\n" +
+	"\x03use\x18\x02 \x01(\tH\x00R\x03use\x88\x01\x01\x12\x10\n" +
+	"\x03kid\x18\x03 \x01(\tR\x03kid\x12\x15\n" +
+	"\x03alg\x18\x04 \x01(\tH\x01R\x03alg\x88\x01\x01\x12\f\n" +
+	"\x01n\x18\x05 \x01(\tR\x01n\x12\f\n" +
+	"\x01e\x18\x06 \x01(\tR\x01eB\x06\n" +
+	"\x04_useB\x06\n" +
+	"\x04_alg\"\x18\n" +
 	"\x06UserID\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\x1d\n" +
 	"\x05Token\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\"\a\n" +
-	"\x05Empty2\xe3\x01\n" +
+	"\x05Empty2\x8d\x02\n" +
 	"\x04User\x121\n" +
 	"\bRegister\x12\x14.RegisterUserRequest\x1a\x0f.LogRegResponse\x12+\n" +
 	"\x05Login\x12\x11.LoginUserRequest\x1a\x0f.LogRegResponse\x12(\n" +
 	"\x15SendEmailConfirmation\x12\a.UserID\x1a\x06.Empty\x12,\n" +
 	"\fConfirmEmail\x12\x14.ConfirmEmailRequest\x1a\x06.Empty\x12#\n" +
-	"\x11GetNewAccessToken\x12\x06.Token\x1a\x06.TokenB*Z(github.com/glekoz/online-shop_proto/userb\x06proto3"
+	"\x11GetNewAccessToken\x12\x06.Token\x1a\x06.Token\x12(\n" +
+	"\x0fGetRSAPublicKey\x12\x06.Empty\x1a\r.RSAPublicKeyB*Z(github.com/glekoz/online-shop_proto/userb\x06proto3"
 
 var (
 	file_user_proto_rawDescOnce sync.Once
@@ -404,29 +498,32 @@ func file_user_proto_rawDescGZIP() []byte {
 	return file_user_proto_rawDescData
 }
 
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_user_proto_goTypes = []any{
 	(*RegisterUserRequest)(nil), // 0: RegisterUserRequest
 	(*LoginUserRequest)(nil),    // 1: LoginUserRequest
 	(*LogRegResponse)(nil),      // 2: LogRegResponse
 	(*ConfirmEmailRequest)(nil), // 3: ConfirmEmailRequest
-	(*UserID)(nil),              // 4: UserID
-	(*Token)(nil),               // 5: Token
-	(*Empty)(nil),               // 6: Empty
+	(*RSAPublicKey)(nil),        // 4: RSAPublicKey
+	(*UserID)(nil),              // 5: UserID
+	(*Token)(nil),               // 6: Token
+	(*Empty)(nil),               // 7: Empty
 }
 var file_user_proto_depIdxs = []int32{
 	0, // 0: User.Register:input_type -> RegisterUserRequest
 	1, // 1: User.Login:input_type -> LoginUserRequest
-	4, // 2: User.SendEmailConfirmation:input_type -> UserID
+	5, // 2: User.SendEmailConfirmation:input_type -> UserID
 	3, // 3: User.ConfirmEmail:input_type -> ConfirmEmailRequest
-	5, // 4: User.GetNewAccessToken:input_type -> Token
-	2, // 5: User.Register:output_type -> LogRegResponse
-	2, // 6: User.Login:output_type -> LogRegResponse
-	6, // 7: User.SendEmailConfirmation:output_type -> Empty
-	6, // 8: User.ConfirmEmail:output_type -> Empty
-	5, // 9: User.GetNewAccessToken:output_type -> Token
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
+	6, // 4: User.GetNewAccessToken:input_type -> Token
+	7, // 5: User.GetRSAPublicKey:input_type -> Empty
+	2, // 6: User.Register:output_type -> LogRegResponse
+	2, // 7: User.Login:output_type -> LogRegResponse
+	7, // 8: User.SendEmailConfirmation:output_type -> Empty
+	7, // 9: User.ConfirmEmail:output_type -> Empty
+	6, // 10: User.GetNewAccessToken:output_type -> Token
+	4, // 11: User.GetRSAPublicKey:output_type -> RSAPublicKey
+	6, // [6:12] is the sub-list for method output_type
+	0, // [0:6] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -437,13 +534,14 @@ func file_user_proto_init() {
 	if File_user_proto != nil {
 		return
 	}
+	file_user_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_proto_rawDesc), len(file_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
