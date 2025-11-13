@@ -240,11 +240,10 @@ func (x *ConfirmEmailRequest) GetMailToken() string {
 type RSAPublicKey struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Kty           string                 `protobuf:"bytes,1,opt,name=kty,proto3" json:"kty,omitempty"`
-	Use           *string                `protobuf:"bytes,2,opt,name=use,proto3,oneof" json:"use,omitempty"`
+	Use           string                 `protobuf:"bytes,2,opt,name=use,proto3" json:"use,omitempty"`
 	Kid           string                 `protobuf:"bytes,3,opt,name=kid,proto3" json:"kid,omitempty"`
-	Alg           *string                `protobuf:"bytes,4,opt,name=alg,proto3,oneof" json:"alg,omitempty"`
-	N             string                 `protobuf:"bytes,5,opt,name=n,proto3" json:"n,omitempty"`
-	E             string                 `protobuf:"bytes,6,opt,name=e,proto3" json:"e,omitempty"`
+	Alg           string                 `protobuf:"bytes,4,opt,name=alg,proto3" json:"alg,omitempty"`
+	Key           []byte                 `protobuf:"bytes,5,opt,name=key,proto3" json:"key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -287,8 +286,8 @@ func (x *RSAPublicKey) GetKty() string {
 }
 
 func (x *RSAPublicKey) GetUse() string {
-	if x != nil && x.Use != nil {
-		return *x.Use
+	if x != nil {
+		return x.Use
 	}
 	return ""
 }
@@ -301,24 +300,17 @@ func (x *RSAPublicKey) GetKid() string {
 }
 
 func (x *RSAPublicKey) GetAlg() string {
-	if x != nil && x.Alg != nil {
-		return *x.Alg
+	if x != nil {
+		return x.Alg
 	}
 	return ""
 }
 
-func (x *RSAPublicKey) GetN() string {
+func (x *RSAPublicKey) GetKey() []byte {
 	if x != nil {
-		return x.N
+		return x.Key
 	}
-	return ""
-}
-
-func (x *RSAPublicKey) GetE() string {
-	if x != nil {
-		return x.E
-	}
-	return ""
+	return nil
 }
 
 type UserID struct {
@@ -463,16 +455,13 @@ const file_user_proto_rawDesc = "" +
 	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\"K\n" +
 	"\x13ConfirmEmailRequest\x12\x16\n" +
 	"\x06userID\x18\x01 \x01(\tR\x06userID\x12\x1c\n" +
-	"\tmailToken\x18\x02 \x01(\tR\tmailToken\"\x8c\x01\n" +
+	"\tmailToken\x18\x02 \x01(\tR\tmailToken\"h\n" +
 	"\fRSAPublicKey\x12\x10\n" +
-	"\x03kty\x18\x01 \x01(\tR\x03kty\x12\x15\n" +
-	"\x03use\x18\x02 \x01(\tH\x00R\x03use\x88\x01\x01\x12\x10\n" +
-	"\x03kid\x18\x03 \x01(\tR\x03kid\x12\x15\n" +
-	"\x03alg\x18\x04 \x01(\tH\x01R\x03alg\x88\x01\x01\x12\f\n" +
-	"\x01n\x18\x05 \x01(\tR\x01n\x12\f\n" +
-	"\x01e\x18\x06 \x01(\tR\x01eB\x06\n" +
-	"\x04_useB\x06\n" +
-	"\x04_alg\"\x18\n" +
+	"\x03kty\x18\x01 \x01(\tR\x03kty\x12\x10\n" +
+	"\x03use\x18\x02 \x01(\tR\x03use\x12\x10\n" +
+	"\x03kid\x18\x03 \x01(\tR\x03kid\x12\x10\n" +
+	"\x03alg\x18\x04 \x01(\tR\x03alg\x12\x10\n" +
+	"\x03key\x18\x05 \x01(\fR\x03key\"\x18\n" +
 	"\x06UserID\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\x1d\n" +
 	"\x05Token\x12\x14\n" +
@@ -534,7 +523,6 @@ func file_user_proto_init() {
 	if File_user_proto != nil {
 		return
 	}
-	file_user_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

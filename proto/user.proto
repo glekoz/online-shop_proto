@@ -6,8 +6,8 @@ service User {
     rpc Register (RegisterUserRequest) returns (LogRegResponse);
     rpc Login (LoginUserRequest) returns (LogRegResponse);
     rpc SendEmailConfirmation (UserID) returns (Empty);
-    rpc ConfirmEmail(ConfirmEmailRequest) returns (Empty);
-    rpc GetNewAccessToken(Token) returns (Token);
+    rpc ConfirmEmail (ConfirmEmailRequest) returns (Empty);
+    rpc GetNewAccessToken (Token) returns (Token);
 
     rpc GetRSAPublicKey (Empty) returns (RSAPublicKey); // for JWKS
 }
@@ -35,11 +35,10 @@ message ConfirmEmailRequest{
 
 message RSAPublicKey{
     string kty = 1;
-    optional string use = 2;
+    string use = 2;
     string kid = 3;
-    optional string alg = 4;
-    string n = 5;
-    string e = 6;
+    string alg = 4;
+    bytes key = 5;
 }
 
 message UserID{
