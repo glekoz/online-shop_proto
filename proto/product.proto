@@ -7,9 +7,18 @@ option go_package = "github.com/glekoz/online-shop_proto/product";
 service GRPCProduct {
   rpc Create(Product) returns (ID);
   rpc Get(ID) returns (Product);
-  rpc GetAll(google.protobuf.Empty) returns (GetAllResponse);
+  rpc GetAll(Filter) returns (GetAllResponse);
   rpc Delete(ID) returns(google.protobuf.Empty);
   rpc Update(UpdateRequest) returns (google.protobuf.Empty);
+}
+
+message Filter {
+  string name = 1;
+  int32 lowPrice = 2;
+  int32 highPrice = 3;
+  string orderBy = 4;
+  int32 page = 5;
+  int32 pageSize = 6;
 }
 
 message Product {
@@ -18,8 +27,10 @@ message Product {
   int32 price = 3;
 }
 
-message ID {
+message ProductDigest {
   string id = 1;
+  string name = 2;
+  int32 price = 3;
 }
 
 message UpdateRequest {
@@ -27,10 +38,8 @@ message UpdateRequest {
   Product product = 2;
 }
 
-message ProductDigest {
+message ID {
   string id = 1;
-  string name = 2;
-  int32 price = 3;
 }
 
 message GetAllResponse {

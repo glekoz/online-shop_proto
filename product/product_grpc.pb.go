@@ -33,7 +33,7 @@ const (
 type GRPCProductClient interface {
 	Create(ctx context.Context, in *Product, opts ...grpc.CallOption) (*ID, error)
 	Get(ctx context.Context, in *ID, opts ...grpc.CallOption) (*Product, error)
-	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllResponse, error)
+	GetAll(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*GetAllResponse, error)
 	Delete(ctx context.Context, in *ID, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -66,7 +66,7 @@ func (c *gRPCProductClient) Get(ctx context.Context, in *ID, opts ...grpc.CallOp
 	return out, nil
 }
 
-func (c *gRPCProductClient) GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllResponse, error) {
+func (c *gRPCProductClient) GetAll(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*GetAllResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetAllResponse)
 	err := c.cc.Invoke(ctx, GRPCProduct_GetAll_FullMethodName, in, out, cOpts...)
@@ -102,7 +102,7 @@ func (c *gRPCProductClient) Update(ctx context.Context, in *UpdateRequest, opts 
 type GRPCProductServer interface {
 	Create(context.Context, *Product) (*ID, error)
 	Get(context.Context, *ID) (*Product, error)
-	GetAll(context.Context, *emptypb.Empty) (*GetAllResponse, error)
+	GetAll(context.Context, *Filter) (*GetAllResponse, error)
 	Delete(context.Context, *ID) (*emptypb.Empty, error)
 	Update(context.Context, *UpdateRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedGRPCProductServer()
@@ -121,7 +121,7 @@ func (UnimplementedGRPCProductServer) Create(context.Context, *Product) (*ID, er
 func (UnimplementedGRPCProductServer) Get(context.Context, *ID) (*Product, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedGRPCProductServer) GetAll(context.Context, *emptypb.Empty) (*GetAllResponse, error) {
+func (UnimplementedGRPCProductServer) GetAll(context.Context, *Filter) (*GetAllResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
 }
 func (UnimplementedGRPCProductServer) Delete(context.Context, *ID) (*emptypb.Empty, error) {
@@ -188,7 +188,7 @@ func _GRPCProduct_Get_Handler(srv interface{}, ctx context.Context, dec func(int
 }
 
 func _GRPCProduct_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(Filter)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -200,7 +200,7 @@ func _GRPCProduct_GetAll_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: GRPCProduct_GetAll_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GRPCProductServer).GetAll(ctx, req.(*emptypb.Empty))
+		return srv.(GRPCProductServer).GetAll(ctx, req.(*Filter))
 	}
 	return interceptor(ctx, in, info, handler)
 }
